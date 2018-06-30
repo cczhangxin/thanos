@@ -1,22 +1,18 @@
 <template>
-  <div>
-    <header-container></header-container>
-    <menu-container></menu-container>
-    <content-container></content-container>
-    <footer-container></footer-container>
+  <div id="container">
+    <Header></Header>
+    <Content></Content>
   </div>
 </template>
 <script>
-  import HeaderContainer from '../v2/HeaderContainer'
-  import MenuContainer from '../v2/MenuContainer'
-  import ContentContainer from '../v2/ContentContainer'
-  import FooterContainer from '../v2/FooterContainer'
-  
+  import Header from '../v2/header'
+  import Content from '../v2/content'
+
   export default {
     data () {
       return {}
     },
-    components: {HeaderContainer, MenuContainer, ContentContainer, FooterContainer},
+    components: {Header, Content},
     props: [],
     computed: {},
     mounted () {
@@ -33,5 +29,10 @@
     color: rgba(0, 0, 0, 0.65);
     background-color: #fff;
   }
-
+  #container{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+  }
 </style>

@@ -1,21 +1,6 @@
-# hl-project
-
-> A Vue.js project
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+前端框架基于vue搭建（官方命令行）<br>
+引入文件有jquery3.2.1 animate.css font-awesome4 element-ui<br>
+基本命令<br>
+npm install<br>
+npm run dev<br>
+npm run build<br>

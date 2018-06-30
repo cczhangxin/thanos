@@ -1,13 +1,12 @@
 <template>
-  <div class="login">
+  <div class="login" v-loading="loading" element-loading-text="检查登录状态" element-loading-background="rgba(0, 0, 0, 0.7)" @keyup.enter="login">
     <dl class="login-box">
       <dt>
-        <strong>xxxxxxxxx</strong>
-        <br>
+        <p>账号密码admin</p>
         <em>Management System</em>
       </dt>
       <dd class="user_icon">
-        <input type="text" placeholder="账号" v-model="user_name"/>
+        <input type="text" placeholder="用户名" v-model="user_name"/>
       </dd>
       <dd class="pwd_icon">
         <input type="password" placeholder="密码" v-model="user_password"/>
@@ -22,22 +21,24 @@
         <input type="button" value="立即登陆" class="submit_btn" @click="login()"/>
       </dd>
       <dd>
-        <p>© 2017-{{now_year}} 版权所有</p>
-        <p>xxxxxxxxxxx</p>
+        <p>Copyright © {{now_year}} by:张新 </p>
+        <p class="text-danger text-left">{{ hint }}</p>
       </dd>
     </dl>
   </div>
 </template>
 <script>
-  import {particleground} from '../../../static/js/Particleground'
-
+  import $ from 'jquery'
+  import particleground from '../../../static/js/Particleground'
   export default {
     data() {
       return {
-        user_name:'',
-        user_password:'',
-        input_code:'',
-        code: ''
+        loading: false,//检查登陆状态动画
+        user_name: '',
+        user_password: '',
+        input_code: '',
+        code: '',
+        hint: ''
       }
     },
     components: {},
@@ -51,8 +52,8 @@
     mounted() {
       this.createCode();
       $('.login').particleground({
-        dotColor: '#5cbdaa',
-        lineColor: '#5cbdaa'
+        dotColor: '#e4e4e4',
+        lineColor: '#e4e4e4'
       });
     },
     methods: {
@@ -77,12 +78,21 @@
         }
         this.showCheck(this.code);
       },
-      login(){
-        console.log(this.user_name)
-        console.log(this.user_password)
-        console.log(this.input_code)
-        console.log(this.code)
-        this.$store.state.auth.is_login=true
+      login() {
+        if (this.user_name !== 'admin') {
+          this.hint = '用户名不正确'
+          return false
+        }
+        if (this.user_password !== 'admin') {
+          this.hint = '密码不正确'
+          return false
+        }
+        if (this.input_code.toLowerCase() !== this.code.toLowerCase()) {
+          this.hint = '验证码不正确'
+          return false
+        }
+        this.hint = ''
+        this.$store.commit('login')
       }
     }
   }
@@ -93,20 +103,20 @@
     position: fixed;
     height: 100%;
     width: 100%;
-    background-color: #16a085;
+    background-color: rgb(64, 158, 255);
   }
 
   .login-box {
     position: absolute;
-    top: 25%;
+    top: 15%;
     left: 0;
     bottom: 0;
     right: 0;
-    height: 400px;
-    width: 400px;
+    height: 300px;
+    width: 300px;
     margin: 0 auto;
     padding: 50px;
-    box-shadow: 0 -15px 30px #0d957a;
+    box-shadow: 0 -10px 16px 3px #317fce;
     border-radius: 5px;
   }
 
@@ -114,12 +124,17 @@
     font-size: 14px;
     height: 42px;
     line-height: 26px;
-    padding: 8px 5%;
-    width: 300px;
     text-indent: 2em;
     border: none;
-    background-color: #5cbdaa;
+    width: 100%;
+    background-color: #318eed;
     color: #fff;
+  }
+
+  input:focus
+  {
+    outline: none;
+    background: #2a84df;
   }
 
   #CodeCanvas {
@@ -128,37 +143,40 @@
     padding-left: 20px;
     float: right;
     z-index: 0;
-    background: #5cbdaa;
+    background: #318eed;
   }
 
   .login dt {
     font-size: 20px;
-    font-weight: bold;
     text-align: center;
-    color: #45bda6;
-    text-shadow: 0 0 1px #0e947a;
+    color: #107ae7;
     margin-bottom: 15px;
   }
 
   #input_code {
-    width: 210px;
+    width: 194px;
     vertical-align: top;
+  }
+
+  dd {
+    margin-bottom: 5px;
   }
 
   dd p {
     text-align: center;
     padding: 0;
     margin: 0;
-    color: #45bda6;
+    color: #107ae7;
   }
 
   .submit_btn {
-    background: #048f74;
+    background: #287dd5;
     cursor: pointer;
+    text-indent: 0;
   }
 
   .submit_btn:hover {
-    background: #02866c;
+    background: #1774d3;
   }
 
   ::-webkit-input-placeholder {
