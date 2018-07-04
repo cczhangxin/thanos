@@ -1,5 +1,5 @@
 <template>
-  <login v-if="!$store.state.auth.is_login"></login>
+  <login v-if="!$store.state.auth.isLogin"></login>
   <home v-else></home>
 </template>
 <script>

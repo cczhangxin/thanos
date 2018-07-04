@@ -1,10 +1,10 @@
 <template>
-  <div>设备管理-选项一</div>
+  <div>{{$store.state.auth.activeMonitorName}}</div>
 </template>
 
 <script>
   export default {
-    name: "test"
+    name: "monitorPage"
   }
 </script>
 

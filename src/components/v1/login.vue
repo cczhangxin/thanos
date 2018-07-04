@@ -6,14 +6,14 @@
         <em>Management System</em>
       </dt>
       <dd class="user_icon">
-        <input type="text" placeholder="用户名" v-model="user_name"/>
+        <input type="text" placeholder="用户名" v-model="userName"/>
       </dd>
       <dd class="pwd_icon">
-        <input type="password" placeholder="密码" v-model="user_password"/>
+        <input type="password" placeholder="密码" v-model="userPwd"/>
       </dd>
       <dd class="val_icon">
         <div class="checkcode">
-          <input type="text" id="input_code" placeholder="验证码" maxlength="4" v-model="input_code"/>
+          <input type="text" id="inputCode" placeholder="验证码" maxlength="4" v-model="inputCode"/>
           <canvas id="CodeCanvas" @click="createCode()"></canvas>
         </div>
       </dd>
@@ -34,9 +34,9 @@
     data() {
       return {
         loading: false,//检查登陆状态动画
-        user_name: '',
-        user_password: '',
-        input_code: '',
+        userName: '',
+        userPwd: '',
+        inputCode: '',
         code: '',
         hint: ''
       }
@@ -79,15 +79,15 @@
         this.showCheck(this.code);
       },
       login() {
-        if (this.user_name !== 'admin') {
+        if (this.userName !== 'admin') {
           this.hint = '用户名不正确'
           return false
         }
-        if (this.user_password !== 'admin') {
+        if (this.userPwd !== 'admin') {
           this.hint = '密码不正确'
           return false
         }
-        if (this.input_code.toLowerCase() !== this.code.toLowerCase()) {
+        if (this.inputCode.toLowerCase() !== this.code.toLowerCase()) {
           this.hint = '验证码不正确'
           return false
         }
@@ -153,7 +153,7 @@
     margin-bottom: 15px;
   }
 
-  #input_code {
+  #inputCode {
     width: 194px;
     vertical-align: top;
   }
