@@ -1,6 +1,26 @@
-前端框架基于vue搭建（官方命令行）<br>
-引入文件有jquery3.2.1 animate.css font-awesome4 element-ui<br>
-基本命令<br>
-npm install<br>
-npm run dev<br>
-npm run build<br>
+## 项目说明
+
+``` bash
+基于vue全家桶(vue-router+vuex+axios+es6)+element-ui+cssLess构建
+使用jQuery和cssLess参考--login.vue
+全局引入的文件:
+  animate.css ==> 动画
+  font-awesome-4.7.0 ==> 图标
+  es6-promise.auto.min.js ==>解决IE使用axios时Promise未定义问题
+```
+
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+```

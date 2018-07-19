@@ -14,7 +14,7 @@
       </dd>
       <dd class="val_icon">
         <div class="checkcode">
-          <input type="text" id="inputCode" placeholder="验证码" maxlength="4" v-model="inputCode"/>
+          <input type="text" class="inputCode" placeholder="验证码" maxlength="4" v-model="inputCode"/>
           <canvas id="CodeCanvas" @click="createCode()"></canvas>
         </div>
       </dd>
@@ -97,7 +97,7 @@
   }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="less">
   ::-webkit-input-placeholder {
     color: #fff;
   }
@@ -120,61 +120,54 @@
     width: 100%;
     color: #eaeaea;
     background-color: rgb(84, 92, 100);
+    .login-box {
+      position: absolute;
+      top: 15%;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      height: 300px;
+      width: 300px;
+      margin: 0 auto;
+      padding: 50px;
+      box-shadow: 0 -10px 16px 3px #41464a;
+      border-radius: 5px;
+      dt {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      dd {
+        margin-bottom: 5px;
+      }
+      input {
+        font-size: 14px;
+        height: 42px;
+        line-height: 26px;
+        text-indent: 2em;
+        border: none;
+        width: 100%;
+        background-color: #4a4f54;
+        color: #fff;
+      }
+      input:focus {
+        outline: none;
+      }
+      #CodeCanvas {
+        width: 85px;
+        height: 44px;
+        padding-left: 20px;
+        float: right;
+        z-index: 0;
+        background: #4a4f54;
+      }
+      .submit_btn:hover {
+        background: #46494c;
+      }
+      .inputCode {
+        width: 194px;
+        vertical-align: top;
+      }
+    }
   }
 
-  .login-box {
-    position: absolute;
-    top: 15%;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    height: 300px;
-    width: 300px;
-    margin: 0 auto;
-    padding: 50px;
-    box-shadow: 0 -10px 16px 3px #41464a;
-    border-radius: 5px;
-  }
-
-  dt {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  dd {
-    margin-bottom: 5px;
-  }
-
-  input {
-    font-size: 14px;
-    height: 42px;
-    line-height: 26px;
-    text-indent: 2em;
-    border: none;
-    width: 100%;
-    background-color: #4a4f54;
-    color: #fff;
-  }
-
-  input:focus {
-    outline: none;
-  }
-
-  #CodeCanvas {
-    width: 85px;
-    height: 44px;
-    padding-left: 20px;
-    float: right;
-    z-index: 0;
-    background: #4a4f54;
-  }
-
-  .submit_btn:hover{
-    background: #46494c;
-  }
-
-  #inputCode {
-    width: 194px;
-    vertical-align: top;
-  }
 </style>
