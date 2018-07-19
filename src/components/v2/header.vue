@@ -38,10 +38,14 @@
         <el-menu-item index="5-2">选项2</el-menu-item>
         <el-menu-item index="5-3">选项3</el-menu-item>
       </el-submenu>
+      <el-menu-item index="6" @click="logOut()" style="float: right;width: 100px;">
+        <i class="fa fa-sign-out" style="color: #fff;vertical-align: baseline;font-size: 18px"></i>退出
+      </el-menu-item>
     </el-menu>
   </div>
 </template>
 <script>
+  import $ from "jquery"
   export default {
     data() {
       return {}
@@ -52,49 +56,16 @@
     mounted() {
     },
     methods: {
+      logOut(){
+        this.$store.commit('login')
+        $('.el-notification').remove()
+      }
     }
   }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  #header {
-    width: 100%;
-    height: 60px;
-    background-color: rgb(64, 158, 255);
-    color: #fff;
-    line-height: 60px;
-  }
-
-  .navbar-content {
-    margin-right: 20px;
-  }
-
-  .navbar-content a {
-    color: #fff;
-    font-size: 14px;
-  }
-
-  .navbar-header {
-    width: 220px;
-    height: 60px;
-    font-size: 19px;
-    font-weight: 600;
-  }
-
-  .min-header .navbar-header {
-    width: 90px;
-  }
-
-  i {
-    cursor: pointer;
-    margin-top: 20px;
-  }
-
   .el-menu {
     padding-left: 200px;
-  }
-
-  .is-active {
-    background: #0b2e13;
   }
 </style>

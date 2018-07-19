@@ -173,4 +173,10 @@
     border-right: 2px solid #007bff;
     color: #007bff;
   }
+
+  .section{
+    background: url("../../../static/images/22.jpg") no-repeat;
+    background-size: 100% 100%;
+    width: 100%;
+  }
 </style>

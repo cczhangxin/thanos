@@ -31,6 +31,7 @@
     top: 0;
     bottom: 0;
     width: 100%;
+    min-width: 950px;
   }
 
   .item-box {
@@ -38,6 +39,7 @@
     border: 1px solid #eee;
     border-radius: 4px;
     padding: 20px;
-    border-top: 2px solid #409EFF;
+    overflow: auto;
+    /*border-top: 2px solid #409EFF;*/
   }
 </style>
