@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <el-button @click="addPoint('videos')" type="text">添加摄像点</el-button>
-    <el-button @click="addPoint('oils')" type="text">添加摄像点</el-button>
+    <el-button @click="addPoint('oils')" type="text">添加油点</el-button>
     <el-button @click="save" type="text">保存</el-button>
     <!--&lt;!&ndash;&ndash;&gt;-->
     <!--&lt;!&ndash;<img class="item-img" src="../../../static/images/oil.png" @mousedown='drag' alt="">&ndash;&gt;-->
