@@ -10,7 +10,7 @@
       class="aside el-menu-vertical-demo"
       :unique-opened="isUnique"
       default-active="1-1">
-      <el-submenu v-for="(item,index) in menuList" :index="(index+1).toString()">
+      <el-submenu v-for="(item,index) in menuList" :key="index" :index="(index+1).toString()">
         <template slot="title">
           <i class="fa" :class="item.icon"></i>
           <span sloat="title">{{item.name}}</span>
@@ -131,7 +131,7 @@
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 20px;
+    background: #f9fafc;
   }
 
   .el-menu-vertical-demo:not(.el-menu--collapse) {
@@ -152,31 +152,5 @@
 
   a:hover {
     text-decoration: none;
-  }
-
-  ::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  ::-webkit-scrollbar-track-piece {
-    background-color: #ccc;
-    -webkit-border-radius: 4px;
-  }
-
-  ::-webkit-scrollbar-thumb:vertical {
-    background-color: #999;
-    -webkit-border-radius: 6px;
-  }
-
-  .el-menu-item.is-active {
-    background: #ecf5ff;
-    border-right: 2px solid #007bff;
-    color: #007bff;
-  }
-
-  .section{
-    background: url("../../../static/images/22.jpg") no-repeat;
-    background-size: 100% 100%;
-    width: 100%;
   }
 </style>

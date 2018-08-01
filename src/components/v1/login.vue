@@ -97,6 +97,7 @@
   }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add lang="less" use css less -->
 <style scoped lang="less">
   ::-webkit-input-placeholder {
     color: #fff;
