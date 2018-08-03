@@ -1,6 +1,5 @@
 <template>
-  <div class="login" v-loading="loading" element-loading-text="检查登录状态" element-loading-background="rgba(0, 0, 0, 0.7)"
-       @keyup.enter="login">
+  <div class="login" @keyup.enter="login">
     <dl class="login-box">
       <dt>
         <h3>账号密码admin</h3>
@@ -19,7 +18,10 @@
         </div>
       </dd>
       <dd>
-        <input type="button" value="立即登陆" class="submit_btn" @click="login()"/>
+        <button type="button" class="submitBtn" :disabled="loading" @click="login()">
+          <i :class="{'el-icon-loading':loading}"></i>
+          {{loading?'登录中...':'登录'}}
+        </button>
       </dd>
       <dd>
         <!--<p>Copyright © {{now_year}} by:张新 </p>-->
@@ -34,7 +36,7 @@
   export default {
     data() {
       return {
-        loading: false,//检查登陆状态动画
+        loading: false,
         userName: '',
         userPwd: '',
         inputCode: '',
@@ -51,6 +53,7 @@
     },
     mounted() {
       this.createCode();
+      this.checkIsLogin()
       $('.login').particleground({
         dotColor: '#999999',
         lineColor: '#999999'
@@ -79,6 +82,13 @@
         this.showCheck(this.code);
       },
       login() {
+        this.loading = true
+        setTimeout(() => {
+          sessionStorage.isLogin = true;
+          this.$router.push({
+            path: '/monitorPage'
+          });
+        }, 2000)
         // if (this.userName !== 'admin') {
         //   this.hint = '用户名不正确'
         //   return false
@@ -91,7 +101,14 @@
         //   this.hint = '验证码不正确'
         //   return false
         // }
-        this.$store.commit('login')
+        // this.$store.commit('login')
+      },
+      checkIsLogin() {
+        if (sessionStorage.isLogin) {
+          this.$router.push({
+            path: '/monitorPage'
+          });
+        }
       }
     }
   }
@@ -140,7 +157,7 @@
       dd {
         margin-bottom: 5px;
       }
-      input {
+      input, .submitBtn {
         font-size: 14px;
         height: 42px;
         line-height: 26px;
@@ -149,6 +166,9 @@
         width: 100%;
         background-color: #4a4f54;
         color: #fff;
+      }
+      .submitBtn{
+        text-indent: 0;
       }
       input:focus {
         outline: none;

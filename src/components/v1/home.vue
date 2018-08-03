@@ -42,4 +42,25 @@
     overflow: auto;
     /*border-top: 2px solid #409EFF;*/
   }
+
+  /*浏览器滚动条样式*/
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-track-piece {
+    background-color: #ccc;
+    -webkit-border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:vertical {
+    background-color: #999;
+    -webkit-border-radius: 6px;
+  }
+
+  .el-menu-item.is-active {
+    background: #ecf5ff;
+    border-right: 2px solid #007bff;
+    color: #007bff;
+  }
 </style>

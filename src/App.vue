@@ -1,22 +1,3 @@
 <template>
-  <login v-if="!$store.state.auth.isLogin"></login>
-  <home v-else></home>
+  <router-view></router-view>
 </template>
-<script>
-  import login from './components/v1/login'
-  import home from './components/v1/home'
-  export default {
-    data() {
-      return {}
-    },
-    components: {login,home},
-    props: [],
-    computed: {},
-    mounted() {
-    },
-    methods: {}
-  }
-</script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

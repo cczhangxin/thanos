@@ -5,7 +5,8 @@
       mode="horizontal"
       background-color="#545c64"
       text-color="#fff"
-      active-text-color="#ffd04b">
+      active-text-color="#ffd04b"
+      @select="handleSelect">
       <el-submenu index="1">
         <template slot="title">设备管理</template>
         <router-link to="/test">
@@ -45,10 +46,10 @@
   </div>
 </template>
 <script>
-  import $ from "jquery"
   export default {
     data() {
-      return {}
+      return {
+      }
     },
     components: {},
     props: [],
@@ -56,9 +57,13 @@
     mounted() {
     },
     methods: {
-      logOut(){
-        this.$store.commit('login')
-        $('.el-notification').remove()
+      logOut() {
+        sessionStorage.isLogin = ''
+        this.$router.push({path: '/login'});
+        // this.$store.commit('login')
+      },
+      handleSelect(key, keyPath){
+
       }
     }
   }

@@ -176,10 +176,12 @@
     position: relative;
     width: 100%;
     height: 100%;
-    .section{
-      padding: 20px;
+    .section {
+      margin: 20px;
       width: 1400px;
       height: 830px;
+      background: #fff;
+      border: 1px solid #eee;
     }
   }
 
@@ -213,7 +215,7 @@
       overflow-y: auto;
       position: absolute;
       right: 0;
-      top: 0;
+      top: -20px;
       padding: 20px;
     }
     .switch {
