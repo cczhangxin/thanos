@@ -116,7 +116,8 @@
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    background: #f9fafc;
+    background: #f2f6fc;
+    padding: 20px;
   }
 
   .el-menu-vertical-demo:not(.el-menu--collapse) {

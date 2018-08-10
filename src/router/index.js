@@ -36,7 +36,7 @@ export default new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some((r) => r.meta.requireAuth)) {
-    if (sessionStorage.isLogin) {
+    if (this.getCookie('user')) {
       next();
     } else {
       next({

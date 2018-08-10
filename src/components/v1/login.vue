@@ -51,13 +51,11 @@
         return today.getFullYear()
       }
     },
+    created() {
+      this.checkIsLogin()
+    },
     mounted() {
       this.createCode();
-      this.checkIsLogin()
-      $('.login').particleground({
-        dotColor: '#999999',
-        lineColor: '#999999'
-      });
     },
     methods: {
       showCheck(a) {
@@ -69,6 +67,10 @@
         ctx.fillText(a, 0, 100);
       },
       createCode() {
+        $('.login').particleground({
+          dotColor: '#999999',
+          lineColor: '#999999'
+        });
         this.code = "";
         let codeLength = 4;
         let selectChar = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -84,7 +86,7 @@
       login() {
         this.loading = true
         setTimeout(() => {
-          sessionStorage.isLogin = true;
+          document.cookie = 'user=admin'
           this.$router.push({
             path: '/monitorPage'
           });
@@ -101,10 +103,9 @@
         //   this.hint = '验证码不正确'
         //   return false
         // }
-        // this.$store.commit('login')
       },
       checkIsLogin() {
-        if (sessionStorage.isLogin) {
+        if (this.getCookie('user')) {
           this.$router.push({
             path: '/monitorPage'
           });
@@ -167,7 +168,7 @@
         background-color: #4a4f54;
         color: #fff;
       }
-      .submitBtn{
+      .submitBtn {
         text-indent: 0;
       }
       input:focus {

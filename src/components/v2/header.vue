@@ -3,7 +3,7 @@
     <el-menu
       class="el-menu-demo"
       mode="horizontal"
-      background-color="#545c64"
+      background-color="#324057"
       text-color="#fff"
       active-text-color="#ffd04b"
       @select="handleSelect">
@@ -58,12 +58,13 @@
     },
     methods: {
       logOut() {
-        sessionStorage.isLogin = ''
+        this.$notify.closeAll()
+        this.delCookie('user')
         this.$router.push({path: '/login'});
         // this.$store.commit('login')
       },
       handleSelect(key, keyPath){
-
+        this.$notify.closeAll()
       }
     }
   }

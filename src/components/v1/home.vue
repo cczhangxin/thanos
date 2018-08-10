@@ -31,7 +31,7 @@
     top: 0;
     bottom: 0;
     width: 100%;
-    min-width: 950px;
+    min-width: 1200px;
   }
 
   .item-box {
@@ -58,9 +58,9 @@
     -webkit-border-radius: 6px;
   }
 
-  .el-menu-item.is-active {
-    background: #ecf5ff;
-    border-right: 2px solid #007bff;
-    color: #007bff;
-  }
+  /*.el-menu-item.is-active {*/
+    /*background: #ecf5ff;*/
+    /*border-right: 2px solid #007bff;*/
+    /*color: #007bff;*/
+  /*}*/
 </style>
