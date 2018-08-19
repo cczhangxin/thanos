@@ -34,9 +34,19 @@ export default new Router({
   ]
 })
 
+function getCookie (cname) {
+  let name = cname + "=";
+  let ca = document.cookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i].trim();
+    if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
+  }
+  return "";
+}
+
 router.beforeEach((to, from, next) => {
   if (to.matched.some((r) => r.meta.requireAuth)) {
-    if (this.getCookie('user')) {
+    if (getCookie('user')) {
       next();
     } else {
       next({
