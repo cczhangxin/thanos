@@ -4,6 +4,8 @@ import router from '../router'
 import login from '../components/v1/login.vue'
 import home from '../components/v1/home.vue'
 import monitorPage from '../components/v3/monitorPage.vue'
+import equipmentLedger from '../components/v3/equipment/equipmentLedger.vue'
+import equipmentDetails from '../components/v3/equipment/equipmentDetails.vue'
 import test from '../components/v3/test.vue'
 
 Vue.use(Router)
@@ -22,8 +24,12 @@ export default new Router({
           component: monitorPage
         },
         {
-          path: '/test',
-          component: test
+          path: '/equipmentLedger',
+          component: equipmentLedger,
+        },
+        {
+          path: '/equipmentDetails',
+          component: equipmentDetails
         }
       ]
     },

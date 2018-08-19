@@ -40,7 +40,7 @@
     border-radius: 4px;
     padding: 20px;
     overflow: auto;
-    /*border-top: 2px solid #409EFF;*/
+    border-top: 2px solid #409EFF;
   }
 
   /*浏览器滚动条样式*/
