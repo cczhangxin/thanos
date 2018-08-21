@@ -6,7 +6,14 @@ import home from '../components/v1/home.vue'
 import monitorPage from '../components/v3/monitorPage.vue'
 import equipmentLedger from '../components/v3/equipment/equipmentLedger.vue'
 import equipmentDetails from '../components/v3/equipment/equipmentDetails.vue'
-import test from '../components/v3/test.vue'
+import departManger from '../components/v3/setting/dePart/departManger.vue'
+import addDepart from '../components/v3/setting/dePart/addDepart.vue'
+import roleManger from '../components/v3/setting/role/RoleManger.vue'
+import addRole from '../components/v3/setting/role/addRole.vue'
+import userManger from '../components/v3/setting/user/userManger.vue'
+import addUser from '../components/v3/setting/user/addUser.vue'
+import proFlowMan from '../components/v3/setting/proFlow/proFlowMan.vue'
+import addProFlow from '../components/v3/setting/proFlow/addProFlow'
 
 Vue.use(Router)
 
@@ -16,7 +23,7 @@ export default new Router({
       path: '/',
       component: home,
       meta: {
-        requireAuth: true,
+        requireAuth: false,
       },
       children: [
         {
@@ -24,12 +31,65 @@ export default new Router({
           component: monitorPage
         },
         {
+          path: '/test',
+          component: test
+        },
+        {
+          path: 'departManger',
+          component: departManger
+        },
+        {
+          path: 'addDepart',
+          component: addDepart
+        },
+        {
+          path: 'editDepart',
+          component: addDepart
+        },
+
+        {
+          path: '/roleManger',
+          component: roleManger
+        },
+        {
+          path: '/addRole',
+          component: addRole
+        },
+        {
+          path: '/editRole',
+          component: addRole
+        },
+        {
+          path: '/userManger',
+          component: userManger
+        },
+        {
+          path: '/addUser',
+          component: addUser
+        },
+        {
+          path: '/editUser',
+          component: addUser
+        },
+        {
+          path: '/proFlowMan',
+          component: proFlowMan
+        },
+        {
+          path: '/addProFlow',
+          component: addProFlow
+        },
+        {
+          path: '/editProFlow',
+          component: addProFlow
+        },
+        {
           path: '/equipmentLedger',
           component: equipmentLedger,
         },
         {
           path: '/equipmentDetails',
-          component: equipmentDetails
+          component: equipmentDetails,
         }
       ]
     },
@@ -40,7 +100,7 @@ export default new Router({
   ]
 })
 
-function getCookie (cname) {
+function getCookie(cname) {
   let name = cname + "=";
   let ca = document.cookie.split(';');
   for (let i = 0; i < ca.length; i++) {

@@ -1,142 +1,191 @@
 <template>
-  <!--
-      background-color="#222d32"
-      text-color="#fff"
-      active-text-color="#ffd04b"
-      :default-openeds="['1','2','3']"
-  -->
-  <div id="content">
-    <el-menu
-      class="aside el-menu-vertical-demo"
-      :unique-opened="isUnique"
-      @select="handleSelect"
-      :default-active="activeIndex">
-      <el-submenu v-for="(item,index) in menuList" :key="index" :index="(index+1).toString()" >
-        <template slot="title">
-          <i class="fa fa-video-camera"></i>
-          <span sloat="title">{{item.name}}</span>
-        </template>
-        <template v-for="(item1,index1) in item.children">
-          <router-link :to="item1.link">
-            <el-menu-item :index="(index+1)+'-'+(index1+1)">{{ item1.name }}
-            </el-menu-item>
-          </router-link>
-        </template>
-      </el-submenu>
-    </el-menu>
-    <div class="section">
-      <router-view></router-view>
+    <!--
+        background-color="#222d32"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+        :default-openeds="['1','2','3']"
+    -->
+    <div id="content">
+        <el-menu
+                class="aside el-menu-vertical-demo"
+                :unique-opened="isUnique"
+                @select="handleSelect"
+                :default-active="activeIndex">
+            <el-submenu v-for="(item,index) in menuList" :key="index" :index="(index+1).toString()">
+                <template slot="title">
+                    <i class="fa fa-video-camera"></i>
+                    <span sloat="title">{{item.name}}</span>
+                </template>
+                <template v-for="(item1,index1) in item.children">
+                    <el-submenu :index="(index+1)+'-'+(index1+1)" v-if="typeof (item1.children) != 'undefined'">
+                        <template slot="title">{{item1.name}}</template>
+                        <router-link :to="item2.link" v-for="(item2,index2) in item1.children">
+                            <el-menu-item :index="(index+1)+'--'+(index1+1)+'-'+(index2+1)"
+                                          >{{item2.name}}
+                            </el-menu-item>
+                        </router-link>
+                    </el-submenu>
+                    <router-link :to="item1.link" v-else>
+                        <el-menu-item :index="(index+1)+'-'+(index1+1)">{{ item1.name }}
+                        </el-menu-item>
+                    </router-link>
+                </template>
+            </el-submenu>
+        </el-menu>
+        <div class="section">
+            <router-view></router-view>
+        </div>
     </div>
-  </div>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        isUnique: false,//是否只保持一个子菜单的展开
-        activeIndex: '1-1',
-        menuList: [
-          {
-            name: '一级区域',
-            children: [
-              {name: '电收尘', link: '/monitorPage'},
-              {name: '一线窑头', link: '/monitorPage'},
-              {name: '煤粉制备', link: '/monitorPage'},
-              {name: '一线原料磨', link: '/monitorPage'},
-              {name: '一线均化库', link: '/monitorPage'},
-            ]
-          },
-          {
-            name: '二线区域',
-            children: [
-              {name: '二线烧成', link: '/monitorPage'},
-              {name: '二线窑头', link: '/monitorPage'},
-              {name: '煤粉制备', link: '/monitorPage'},
-              {name: '一线原料磨', link: '/monitorPage'},
-            ]
-          },
-          {
-            name: '发电区域',
-            children: [
-              {name: '一线汽轮机', link: '/monitorPage'},
-              {name: '一线锅炉', link: '/monitorPage'},
-              {name: '二线汽轮机', link: '/monitorPage'},
-              {name: '二线锅炉', link: '/monitorPage'},
-              {name: '纯水制备', link: '/monitorPage'},
-            ]
-          },
-          {
-            name: '公共区域',
-            children: [
-              {name: '供水供暖', link: '/monitorPage'},
-            ]
-          },
-          {
-            name: '矿山区域',
-            children: [
-              {name: '矿山工艺线', link: '/monitorPage'},
-            ]
-          },
-          {
-            name: '水泥区域',
-            children: [
-              {name: '水泥磨工艺', link: '/monitorPage'},
-              {name: '水泥入库', link: '/monitorPage'},
-              {name: '水泥出库', link: '/monitorPage'},
-            ]
-          }
-        ],
-      };
-    },
-    mounted() {
-    },
-    methods: {
-      handleSelect(key, keyPath){
+    export default {
+        data() {
+            return {
+                isUnique: false,//是否只保持一个子菜单的展开
+                activeIndex: '1-1',
+                menuList: [
+                    {
+                        name: '一级区域',
+                        children: [
+                            {name: '电收尘', link: '/monitorPage'},
+                            {name: '一线窑头', link: '/monitorPage'},
+                            {name: '煤粉制备', link: '/monitorPage'},
+                            {name: '一线原料磨', link: '/monitorPage'},
+                            {name: '一线均化库', link: '/monitorPage'},
+                        ]
+                    },
+                    {
+                        name: '二线区域',
+                        children: [
+                            {name: '二线烧成', link: '/monitorPage'},
+                            {name: '二线窑头', link: '/monitorPage'},
+                            {name: '煤粉制备', link: '/monitorPage'},
+                            {name: '一线原料磨', link: '/monitorPage'},
+                        ]
+                    },
+                    {
+                        name: '发电区域',
+                        children: [
+                            {name: '一线汽轮机', link: '/monitorPage'},
+                            {name: '一线锅炉', link: '/monitorPage'},
+                            {name: '二线汽轮机', link: '/monitorPage'},
+                            {name: '二线锅炉', link: '/monitorPage'},
+                            {name: '纯水制备', link: '/monitorPage'},
+                        ]
+                    },
+                    {
+                        name: '公共区域',
+                        children: [
+                            {name: '供水供暖', link: '/monitorPage'},
+                        ]
+                    },
+                    {
+                        name: '矿山区域',
+                        children: [
+                            {name: '矿山工艺线', link: '/monitorPage'},
+                        ]
+                    },
+                    {
+                        name: '水泥区域',
+                        children: [
+                            {name: '水泥磨工艺', link: '/monitorPage'},
+                            {name: '水泥入库', link: '/monitorPage'},
+                            {name: '水泥出库', link: '/monitorPage'},
+                        ]
+                    },
+                    {
+                        name: '系统设置',
+                        children: [
+                            {
+                                name: '部门管理',
+                                link: '#',
+                                children: [
+                                    {name: '部门管理', link: '/departManger'},
+                                    {name: '创建部门', link: '/addDepart'},
+                                    {name: '编辑部门', link: '/editDepart'},
+                                ]
+                            },
+                            {
+                                name: '角色权限管理',
+                                link: '#',
+                                children: [
+                                    {name: '角色管理', link: '/roleManger'},
+                                    {name: '添加角色', link: '/addRole'},
+                                    {name: '编辑角色', link: '/editRole'},
+                                ]
+                            },
+                            {
+                                name: '用户管理',
+                                link: '#',
+                                children: [
+                                    {name: '用户列表', link: '/userManger'},
+                                    {name: '添加用户', link: '/addUser'},
+                                    {name: '用户管理', link: '/editUser'},
+                                ]
+                            },
+                            {
+                                name: '工艺流程管理',
+                                link: '#',
+                                children: [
+                                    {name: '工艺流程列表', link: '/proFlowMan'},
+                                    {name: '新增工艺流程', link: '/addProFlow'},
+                                    {name: '编辑工艺流程', link: '/editProFlow'},
+                                ]
+                            },
+                        ]
+                    }
+                ],
+            };
+        },
+        mounted() {
+        },
+        methods: {
+            handleSelect(key, keyPath) {
 
-      }
-    },
-  }
+            }
+        },
+    }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .el-menu-item {
-    padding-left: 55px !important;
-  }
+    .el-menu-item {
+        padding-left: 55px !important;
+    }
 
-  #content {
-    display: flex;
-    position: absolute;
-    width: 100%;
-    top: 60px;
-    bottom: 0;
-    overflow: hidden;
-  }
+    #content {
+        display: flex;
+        position: absolute;
+        width: 100%;
+        top: 60px;
+        bottom: 0;
+        overflow: hidden;
+    }
 
-  .section {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    background: #f2f6fc;
-    padding: 20px;
-  }
+    .section {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        background: #f2f6fc;
+        padding: 20px;
+    }
 
-  .el-menu-vertical-demo:not(.el-menu--collapse) {
-    flex: 0 0 200px;
-    width: 200px;
-    z-index: 2;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
+        flex: 0 0 200px;
+        width: 200px;
+        z-index: 2;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
 
-  .fa {
-    margin-right: 5px;
-    width: 24px;
-    text-align: center;
-    font-size: 18px;
-    vertical-align: middle;
-  }
+    .fa {
+        margin-right: 5px;
+        width: 24px;
+        text-align: center;
+        font-size: 18px;
+        vertical-align: middle;
+    }
 
-  a:hover {
-    text-decoration: none;
-  }
+    a:hover {
+        text-decoration: none;
+    }
 </style>
