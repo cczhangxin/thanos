@@ -31,10 +31,6 @@ export default new Router({
           component: monitorPage
         },
         {
-          path: '/test',
-          component: test
-        },
-        {
           path: 'departManger',
           component: departManger
         },

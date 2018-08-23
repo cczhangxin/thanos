@@ -58,7 +58,6 @@
     },
     methods: {
       logOut() {
-        this.$notify.closeAll()
         this.delCookie('user')
         this.$router.push({path: '/login'});
         // this.$store.commit('login')

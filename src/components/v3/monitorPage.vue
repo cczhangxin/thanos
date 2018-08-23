@@ -33,21 +33,22 @@
         </el-form>
       </transition>
     </section>
-    <!--<aside class="aside">-->
-    <!--<div class="switch" @click="showAlarm=!showAlarm" :class="{show:showAlarm}">-->
-    <!--报警信息-->
-    <!--<span>99</span>-->
-    <!--</div>-->
-    <!--<div class="content" v-show="showAlarm">-->
-    <!--<el-button @click="addPoint('videos')" type="text">添加摄像点</el-button>-->
-    <!--<el-button @click="addPoint('oils')" type="text">添加油点</el-button>-->
-    <!--<el-button @click="save" type="text">保存</el-button>-->
-    <!--</div>-->
-    <!--</aside>-->
+    <aside class="aside">
+      <div class="switch" @click="showAlarm=!showAlarm" :class="{show:showAlarm}">
+        报警信息
+        <span>99</span>
+      </div>
+      <div class="content" v-show="showAlarm">
+        <el-button @click="addPoint('videos')" type="text">添加摄像点</el-button>
+        <el-button @click="addPoint('oils')" type="text">添加油点</el-button>
+        <el-button @click="save" type="text">保存</el-button>
+      </div>
+    </aside>
   </div>
 </template>
 <script>
   import 'element-ui/lib/theme-chalk/base.css';
+
   export default {
     data: function () {
       return {
@@ -63,13 +64,6 @@
       }
     },
     mounted() {
-      this.$notify({
-        title: '告警',
-        message: '这是一条不会自动关闭的消息',
-        duration: 0,
-        offset: 60,
-        type: 'warning'
-      })
     },
     methods: {
       drag(e, item) {
