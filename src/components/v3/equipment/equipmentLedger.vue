@@ -67,7 +67,9 @@
 
     },
     mounted () {
-
+      this.$http.get('/api/equipments').then(msg=>{
+        console.log(msg)
+      })
     },
     methods: {
       query(){
@@ -77,6 +79,7 @@
 
       },
       handleDetail (index, row) {
+
         this.$router.push({
           path: '/equipmentDetails',
           query: {
