@@ -6,6 +6,7 @@ import home from '../components/v1/home.vue'
 import monitorPage from '../components/v3/monitorPage.vue'
 import equipmentLedger from '../components/v3/equipment/equipmentLedger.vue'
 import equipmentDetails from '../components/v3/equipment/equipmentDetails.vue'
+import equipmentEdit from '../components/v3/equipment/equipmentEdit.vue'
 import departManger from '../components/v3/setting/dePart/departManger.vue'
 import addDepart from '../components/v3/setting/dePart/addDepart.vue'
 import roleManger from '../components/v3/setting/role/RoleManger.vue'
@@ -86,6 +87,10 @@ export default new Router({
         {
           path: '/equipmentDetails',
           component: equipmentDetails,
+        },
+        {
+          path: '/equipmentEdit',
+          component: equipmentEdit,
         }
       ]
     },

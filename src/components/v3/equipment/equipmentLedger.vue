@@ -76,10 +76,11 @@
 
       },
       newEquipment(){
-
+        this.$router.push({
+          path: '/equipmentEdit'
+        })
       },
       handleDetail (index, row) {
-
         this.$router.push({
           path: '/equipmentDetails',
           query: {

@@ -1,49 +1,68 @@
 <template>
-  <div class="box">
-    <section class="section">
-      <img v-for="item in videos" class="item-img" src="../../../static/images/video.png"
-           :style="{top:item.top,left:item.left}"
-           :info="item"
-           @contextmenu="showMenu($event,item,'videos')"
-           @mousedown='drag($event,item)' alt="">
-      <img v-for="item in oils" class="item-img" src="../../../static/images/oil.png"
-           :style="{top:item.top,left:item.left}"
-           :info="item"
-           @contextmenu="showMenu($event,item,'oils')"
-           @mousedown='drag($event,item)' alt="">
-      <transition name="el-zoom-in-top">
-        <el-form v-show="showInfoBox" v-if="activeInfo" class="info-box" label-width="80px">
-          <p class="close" style="margin-bottom: 35px">
-            <i @click="showInfoBox=!showInfoBox" class="el-icon-close pull-right"></i>
-          </p>
-          <el-form-item label="内部编号">
-            <el-input v-model="activeInfo.info.number"></el-input>
-          </el-form-item>
-          <el-form-item label="类型">
-            <el-input v-model="activeInfo.info.type"></el-input>
-          </el-form-item>
-          <el-form-item label="注释">
-            <el-input v-model="activeInfo.info.annotation"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" size="small" @click="showInfoBox=!showInfoBox">确定</el-button>
-            <el-button type="danger" size="small" @click="deletePoint()">删除</el-button>
-            <el-button size="small" @click="showInfoBox=!showInfoBox">取消</el-button>
-          </el-form-item>
-        </el-form>
-      </transition>
-    </section>
-    <aside class="aside">
-      <div class="switch" @click="showAlarm=!showAlarm" :class="{show:showAlarm}">
-        报警信息
-        <span>99</span>
-      </div>
-      <div class="content" v-show="showAlarm">
-        <el-button @click="addPoint('videos')" type="text">添加摄像点</el-button>
-        <el-button @click="addPoint('oils')" type="text">添加油点</el-button>
-        <el-button @click="save" type="text">保存</el-button>
-      </div>
-    </aside>
+  <div>
+    <el-menu
+      class="aside el-menu-vertical-demo"
+      :unique-opened="isUnique"
+      default-active="1-1">
+      <el-submenu v-for="(item,index) in menuList" :key="index" :index="(index+1).toString()">
+        <template slot="title">
+          <i class="fa" :class="item.icon"></i>
+          <span sloat="title">{{item.name}}</span>
+        </template>
+        <template v-for="(item1,index1) in item.children">
+          <router-link :to="item1.link">
+            <el-menu-item :index="(index+1)+'-'+(index1+1)" @click="checkName(item1.name)">{{ item1.name }}
+            </el-menu-item>
+          </router-link>
+        </template>
+      </el-submenu>
+    </el-menu>
+    <div class="box">
+      <section class="section">
+        <img v-for="item in videos" class="item-img" src="../../../static/images/video.png"
+             :style="{top:item.top,left:item.left}"
+             :info="item"
+             @contextmenu="showMenu($event,item,'videos')"
+             @mousedown='drag($event,item)' alt="">
+        <img v-for="item in oils" class="item-img" src="../../../static/images/oil.png"
+             :style="{top:item.top,left:item.left}"
+             :info="item"
+             @contextmenu="showMenu($event,item,'oils')"
+             @mousedown='drag($event,item)' alt="">
+        <transition name="el-zoom-in-top">
+          <el-form v-show="showInfoBox" v-if="activeInfo" class="info-box" label-width="80px">
+            <p class="close" style="margin-bottom: 35px">
+              <i @click="showInfoBox=!showInfoBox" class="el-icon-close pull-right"></i>
+            </p>
+            <el-form-item label="内部编号">
+              <el-input v-model="activeInfo.info.number"></el-input>
+            </el-form-item>
+            <el-form-item label="类型">
+              <el-input v-model="activeInfo.info.type"></el-input>
+            </el-form-item>
+            <el-form-item label="注释">
+              <el-input v-model="activeInfo.info.annotation"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" size="small" @click="showInfoBox=!showInfoBox">确定</el-button>
+              <el-button type="danger" size="small" @click="deletePoint()">删除</el-button>
+              <el-button size="small" @click="showInfoBox=!showInfoBox">取消</el-button>
+            </el-form-item>
+          </el-form>
+        </transition>
+      </section>
+      <aside class="aside">
+        <div class="switch" @click="showAlarm=!showAlarm" :class="{show:showAlarm}">
+          报警信息
+          <span>99</span>
+        </div>
+        <div class="content" v-show="showAlarm">
+          <el-button @click="addPoint('videos')" type="text">添加摄像点</el-button>
+          <el-button @click="addPoint('oils')" type="text">添加油点</el-button>
+          <el-button @click="save" type="text">保存</el-button>
+        </div>
+      </aside>
+    </div>
   </div>
 </template>
 <script>
@@ -63,10 +82,10 @@
         boxLeft: 0,
       }
     },
-    mounted() {
+    mounted () {
     },
     methods: {
-      drag(e, item) {
+      drag (e, item) {
         let clientWidth = document.body.clientWidth - 245
         document.onmousemove = (e) => {
           e.preventDefault();
@@ -108,13 +127,13 @@
           document.onmousemove = null;
         }
       },
-      showMenu(e, item, name) {
+      showMenu (e, item, name) {
         e.preventDefault();
         this.activeInfo = item
         this.activePoint = name
         this.showInfoBox = true
       },
-      addPoint(data) {
+      addPoint (data) {
         this[data].push({
           id: this.itemId++,
           top: 0,
@@ -126,13 +145,13 @@
           }
         })
       },
-      deletePoint() {
+      deletePoint () {
         this[this.activePoint] = this[this.activePoint].filter(item => {
           return item.id !== this.activeInfo.id
         })
         this.showInfoBox = !this.showInfoBox
       },
-      save() {
+      save () {
         console.log(this.videos)
         console.log(this.oils)
       }
@@ -214,5 +233,40 @@
         right: 220px;
       }
     }
+  }
+  .el-menu-item {
+    padding-left: 55px !important;
+  }
+  #content {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    top: 60px;
+    bottom: 0;
+    overflow: hidden;
+  }
+  .section {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #f9fafc;
+    padding: 20px;
+  }
+  .el-menu-vertical-demo:not(.el-menu--collapse) {
+    flex: 0 0 200px;
+    width: 200px;
+    z-index: 2;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .fa {
+    margin-right: 5px;
+    width: 24px;
+    text-align: center;
+    font-size: 18px;
+    vertical-align: middle;
+  }
+  a:hover {
+    text-decoration: none;
   }
 </style>

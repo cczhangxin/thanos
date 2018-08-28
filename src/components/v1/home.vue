@@ -58,6 +58,10 @@
     -webkit-border-radius: 6px;
   }
 
+  .el-dialog__body{
+    overflow: auto;
+  }
+
   /*.el-menu-item.is-active {*/
     /*background: #ecf5ff;*/
     /*border-right: 2px solid #007bff;*/

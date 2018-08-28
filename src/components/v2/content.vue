@@ -37,7 +37,7 @@
             name: '一级区域',
             icon: 'fa-video-camera',
             children: [
-              {name: '电收尘', link: '/'},
+              {name: '电收尘', link: '/monitorPage'},
               {name: '一线窑头', link: '/'},
               {name: '煤粉制备', link: '/'},
               {name: '一线原料磨', link: '/'},
@@ -130,6 +130,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     background: #f9fafc;
+    padding: 20px;
   }
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     flex: 0 0 200px;
