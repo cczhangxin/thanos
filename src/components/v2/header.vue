@@ -6,39 +6,11 @@
       background-color="#324057"
       text-color="#fff"
       active-text-color="#ffd04b"
-      @select="handleSelect">
-      <el-submenu index="1">
-        <template slot="title">设备管理</template>
-        <router-link to="/equipmentLedger">
-          <el-menu-item index="1-1">设备台账</el-menu-item>
-        </router-link>
-        <el-menu-item index="1-2">选项2</el-menu-item>
-        <el-menu-item index="1-3">选项3</el-menu-item>
-      </el-submenu>
-      <el-submenu index="2">
-        <template slot="title">备件管理</template>
-        <el-menu-item index="2-1">选项1</el-menu-item>
-        <el-menu-item index="2-2">选项2</el-menu-item>
-        <el-menu-item index="2-3">选项3</el-menu-item>
-      </el-submenu>
-      <el-submenu index="3">
-        <template slot="title">运行维护管理</template>
-        <el-menu-item index="3-1">选项1</el-menu-item>
-        <el-menu-item index="3-2">选项2</el-menu-item>
-        <el-menu-item index="3-3">选项3</el-menu-item>
-      </el-submenu>
-      <el-submenu index="4">
-        <template slot="title">润滑管理</template>
-        <el-menu-item index="4-1">选项1</el-menu-item>
-        <el-menu-item index="4-2">选项2</el-menu-item>
-        <el-menu-item index="4-3">选项3</el-menu-item>
-      </el-submenu>
-      <el-submenu index="5">
-        <template slot="title">系统设置</template>
-        <el-menu-item index="5-1">选项1</el-menu-item>
-        <el-menu-item index="5-2">选项2</el-menu-item>
-        <el-menu-item index="5-3">选项3</el-menu-item>
-      </el-submenu>
+
+      :default-active="$store.state.monitor.headerActive">
+      <el-menu-item v-for="(value,key,index) in menuData" :key="index" :index="(index+1).toString()"
+                    @click="handleSelect(key,index)">{{key}}
+      </el-menu-item>
       <el-menu-item index="6" @click="logOut()" style="float: right;width: 100px;">
         <i class="fa fa-sign-out" style="color: #fff;vertical-align: baseline;font-size: 18px"></i>退出
       </el-menu-item>
@@ -49,21 +21,103 @@
   export default {
     data() {
       return {
+        menuData: {
+          home: [
+            {
+              name: '一级区域',
+              icon: 'fa-video-camera',
+              children: [
+                {name: '电收尘', link: '/monitorPage'},
+                {name: '一线窑头', link: '/'},
+                {name: '煤粉制备', link: '/'},
+                {name: '一线原料磨', link: '/'},
+                {name: '一线均化库', link: '/'},
+              ]
+            },
+            {
+              name: '二线区域',
+              icon: 'fa-video-camera',
+              link: '/'
+            },
+            {
+              name: '发电区域',
+              icon: 'fa-video-camera',
+              children: [
+                {name: '一线汽轮机', link: '/'},
+                {name: '一线锅炉', link: '/'},
+                {name: '二线汽轮机', link: '/'},
+                {name: '二线锅炉', link: '/'},
+                {name: '纯水制备', link: '/'},
+              ]
+            },
+            {
+              name: '公共区域',
+              icon: 'fa-video-camera',
+              children: [
+                {name: '供水供暖', link: '/'},
+              ]
+            },
+            {
+              name: '矿山区域',
+              icon: 'fa-video-camera',
+              children: [
+                {name: '矿山工艺线', link: '/'},
+              ]
+            },
+            {
+              name: '水泥区域',
+              icon: 'fa-video-camera',
+              children: [
+                {name: '水泥磨工艺', link: '/'},
+                {name: '水泥入库', link: '/'},
+                {name: '水泥出库', link: '/'},
+              ]
+            }
+          ],
+          setting: [
+            {
+              name: 123,
+              link: '/equipmentLedger'
+            },
+            {
+              name: 456,
+              link: '/'
+            },
+            {
+              name: 789,
+              link: '/'
+            }
+          ]
+        },
+
       }
     },
     components: {},
     props: [],
     computed: {},
+    created() {
+      this.$store.state.monitor.headerActive = window.sessionStorage.getItem('headerActive') ? window.sessionStorage.getItem('headerActive') : '1'
+    },
     mounted() {
     },
     methods: {
       logOut() {
         this.delCookie('user')
+        window.sessionStorage.clear()
         this.$router.push({path: '/login'});
         // this.$store.commit('login')
       },
-      handleSelect(key, keyPath){
-        this.$notify.closeAll()
+      handleSelect(key, index) {
+        console.log(String(index + 1))
+        this.$store.state.monitor.menuList = this.menuData[key]
+        window.sessionStorage.setItem('menuList', JSON.stringify(this.menuData[key]))
+        window.sessionStorage.setItem('headerActive', String(index + 1))
+        window.sessionStorage.setItem('menuActive', this.menuData[key][0].children ? '1-1' : '1')
+        this.$store.state.monitor.menuActive=this.menuData[key][0].children ? '1-1' : '1'
+        // window.sessionStorage.setItem('path',JSON.stringify(this.menuData[key]))
+        this.$router.push({
+          path: this.menuData[key][0].link ? this.menuData[key][0].link : this.menuData[key][0].children[0].link
+        });
       }
     }
   }

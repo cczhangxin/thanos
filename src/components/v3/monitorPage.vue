@@ -1,22 +1,4 @@
 <template>
-  <div>
-    <el-menu
-      class="aside el-menu-vertical-demo"
-      :unique-opened="isUnique"
-      default-active="1-1">
-      <el-submenu v-for="(item,index) in menuList" :key="index" :index="(index+1).toString()">
-        <template slot="title">
-          <i class="fa" :class="item.icon"></i>
-          <span sloat="title">{{item.name}}</span>
-        </template>
-        <template v-for="(item1,index1) in item.children">
-          <router-link :to="item1.link">
-            <el-menu-item :index="(index+1)+'-'+(index1+1)" @click="checkName(item1.name)">{{ item1.name }}
-            </el-menu-item>
-          </router-link>
-        </template>
-      </el-submenu>
-    </el-menu>
     <div class="box">
       <section class="section">
         <img v-for="item in videos" class="item-img" src="../../../static/images/video.png"
@@ -62,7 +44,6 @@
           <el-button @click="save" type="text">保存</el-button>
         </div>
       </aside>
-    </div>
   </div>
 </template>
 <script>
@@ -101,8 +82,8 @@
           if (clientY < 0) {
             clientY = 0
           }
-          if (clientY > 805) {
-            clientY = 805
+          if (clientY > 660) {
+            clientY = 660
           }
           item.top = clientY + 'px'
           item.left = percentage + '%'
@@ -165,7 +146,7 @@
     width: 100%;
     .section {
       width: 80%;
-      height: 830px;
+      height: 660px;
       background: url("../../../static/images/22.jpg") no-repeat #fff;
       background-size: 100% 100%;
       border: 1px solid #eee;

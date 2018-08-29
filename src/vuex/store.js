@@ -6,6 +6,6 @@ import monitor from './monitor.js'
 
 export default new Vuex.Store({
   modules: {
-    auth: monitor
+    monitor: monitor
   }
 })

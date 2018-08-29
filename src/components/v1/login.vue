@@ -175,7 +175,7 @@
         outline: none;
       }
       #CodeCanvas {
-        width: 85px;
+        width: 80px;
         height: 44px;
         padding-left: 20px;
         float: right;

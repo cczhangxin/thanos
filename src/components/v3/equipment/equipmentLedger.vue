@@ -1,17 +1,21 @@
 <template>
   <div class="item-box">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item>设备管理</el-breadcrumb-item>
+      <el-breadcrumb-item>设备台账</el-breadcrumb-item>
+    </el-breadcrumb>
     <header class="header">
       <el-row :gutter="20">
-        <el-col :span="3">
+        <el-col :span="4">
           <el-input v-model="equipmentNumber" placeholder="请输入设备编号"></el-input>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="4">
           <el-input v-model="equipmentName" placeholder="请输入设备名称"></el-input>
         </el-col>
         <el-col :span="6">
           <el-button type="primary" @click="query()">查询</el-button>
         </el-col>
-        <el-col :span="12" class="new">
+        <el-col :span="10" class="new">
           <el-button type="success" @click="newEquipment()">新增设备台账</el-button>
         </el-col>
       </el-row>
@@ -112,6 +116,7 @@
 
   .header {
     margin-bottom: 40px;
+    margin-top: 20px;
   }
 
   .new{
