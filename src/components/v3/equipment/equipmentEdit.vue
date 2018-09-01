@@ -30,54 +30,21 @@
       </div>
     </el-dialog>
     <div class="item-box">
-      <el-form ref="form" label-width="80px">
-        <el-col :span="12">
-          <el-form-item label="设备名称">
-            <el-input placeholder="设备名称" style="width: 100%;"></el-input>
+      <el-form ref="form" label-width="90px">
+        <el-col :span="12" v-for="(value,key,index) in itemData" :key="index">
+          <el-form-item :label="titleName[index]">
+            <el-input v-model="itemData[key]"></el-input>
           </el-form-item>
         </el-col>
+        <!--<el-col :span="12">-->
+          <!--<el-form-item label="设备参数">-->
+            <!--<el-button type="text" @click="parameterEdit()">编辑设备参数</el-button>-->
+          <!--</el-form-item>-->
+        <!--</el-col>-->
         <el-col :span="12">
-          <el-form-item label="设备编号">
-            <el-input placeholder="设备编号" style="width: 100%;"></el-input>
+          <el-form-item label="">
+            <el-button type="primary">保存</el-button>
           </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="规格型号">
-            <el-input placeholder="规格型号" style="width: 100%;"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="设备分类">
-            <el-input placeholder="设备分类" style="width: 100%;"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="生产厂家">
-            <el-input placeholder="设备名称" style="width: 100%;"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="安装位置">
-            <el-input placeholder="安装位置" style="width: 100%;"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="使用部门">
-            <el-input placeholder="使用部门" style="width: 100%;"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="设备用途">
-            <el-input placeholder="设备用途" style="width: 100%;"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="设备参数">
-            <el-button type="text" @click="parameterEdit()">编辑设备参数</el-button>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-button type="primary">保存</el-button>
         </el-col>
       </el-form>
     </div>
@@ -91,8 +58,17 @@
   export default {
     data () {
       return {
-        parameterBox: true,
+        parameterBox: false,
         parameterQuantity: 0,
+        titleName: ['设备名称', '设备编号', '规格型号', '生产厂家', '设备用途', '主要参数'],
+        itemData: {
+          name: '',
+          number: '',
+          type: '',
+          manufacturers: '',
+          use: '',
+          parameter: ''
+        },
         parameterArr: [
           {
             parameternName: '',

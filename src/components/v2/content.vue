@@ -10,8 +10,8 @@
       class="aside el-menu-vertical-demo"
       :unique-opened="isUnique"
       @select="handleSelect"
-      :default-active="$store.state.monitor.menuActive">
-      <template v-for="(item,index) in $store.state.monitor.menuList">
+      :default-active="$store.state.menu.menuActive">
+      <template v-for="(item,index) in $store.state.menu.menuList">
         <el-submenu v-if="item.children" :key="index" :index="(index+1).toString()">
           <template slot="title">
             <i class="fa" :class="item.icon"></i>
@@ -113,36 +113,23 @@
       }
     },
     created() {
-
-      this.$store.state.monitor.menuList = JSON.parse(window.sessionStorage.getItem('menuList')) ? JSON.parse(window.sessionStorage.getItem('menuList')) : this.menuData.home
-      this.$store.state.monitor.menuActive = window.sessionStorage.getItem('menuActive') ? window.sessionStorage.getItem('menuActive') : '1-1'
+      this.setHistory()
     },
     mounted() {
 
-
-      console.log(this.$store.state.monitor.menuActive)
-
-      // let width = window.matchMedia("(max-width: 1000px)");
-      // width.addListener(widthCallback);
-      // let _self = this
-      //
-      // function widthCallback(width) {
-      //   if (width.matches) {
-      //     _self.$store.state.auth.isCollapse = true
-      //   } else {
-      //     _self.$store.state.auth.isCollapse = false
-      //   }
-      // }
     },
     methods: {
       checkName(name) {
-        // this.$store.state.auth.activeMonitorName = name
         console.log(name)
       },
       handleSelect(key, keyPath) {
         window.sessionStorage.setItem('menuActive', key)
+      },
+      setHistory(){
+        this.$store.state.menu.menuList = JSON.parse(window.sessionStorage.getItem('menuList')) ? JSON.parse(window.sessionStorage.getItem('menuList')) : this.menuData.home
+        this.$store.state.menu.menuActive = window.sessionStorage.getItem('menuActive') ? window.sessionStorage.getItem('menuActive') : '1-1'
       }
-    },
+    }
   }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

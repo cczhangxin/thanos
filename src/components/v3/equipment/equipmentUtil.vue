@@ -1,15 +1,11 @@
 <template>
   <div>
     <el-tabs v-model="activeName">
+      <!--设备备件-->
       <el-tab-pane label="设备备件" name="first">
-        <el-table :data="sparePartsData" style="width: 100%">
-          <el-table-column prop="name" label="备件名称"></el-table-column>
-          <el-table-column prop="part" label="使用部位"></el-table-column>
-          <el-table-column prop="type" label="规格型号"></el-table-column>
-          <el-table-column prop="unit" label="单位"></el-table-column>
-          <el-table-column prop="number" label="装机数量"></el-table-column>
-          <el-table-column prop="parameter" label="技术参数"></el-table-column>
-          <el-table-column prop="other" label="其他"></el-table-column>
+        <!--表格部分-->
+        <el-table :data="sparePartData" style="width: 100%">
+          <el-table-column v-for="(value,key,index) in sparePart" :prop="key" :label="sparePartName[index]" :key="index"></el-table-column>
           <el-table-column label="操作" width="150" v-if="data!=='detail'">
             <template slot-scope="scope">
               <el-button size="mini" type="success" @click="partEdit(scope.$index, scope.row)">修改</el-button>
@@ -17,104 +13,77 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-row :gutter="20" class="add-box" v-if="data!=='detail'">
-          <el-col :span="3">
-            <el-input v-model="sparePart.name" placeholder="备件名称"></el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-input v-model="sparePart.part" placeholder="使用部位"></el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-input v-model="sparePart.type" placeholder="规格型号"></el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-input v-model="sparePart.unit" placeholder="单位"></el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-input v-model="sparePart.number" placeholder="装机数量"></el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-input v-model="sparePart.parameter" placeholder="技术参数"></el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-input v-model="sparePart.other" placeholder="其他"></el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-button size="medium" type="primary" @click="newSpareParts">新增</el-button>
-          </el-col>
-        </el-row>
-        <el-dialog title="设备备件" :visible.sync="dialogFormVisible">
-          <el-form>
-            <el-row :gutter="20">
-              <el-col :span="10">
-                <el-form-item label="备件名称" :label-width="formLabelWidth">
-                  <el-input v-model="sparePartsData[activeIndex].name"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="使用部位" :label-width="formLabelWidth">
-                  <el-input v-model="sparePartsData[activeIndex].part"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="10">
-                <el-form-item label="规格型号" :label-width="formLabelWidth">
-                  <el-input v-model="sparePartsData[activeIndex].type"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="单位" :label-width="formLabelWidth">
-                  <el-input v-model="sparePartsData[activeIndex].unit"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="10">
-                <el-form-item label="装机数量" :label-width="formLabelWidth">
-                  <el-input v-model="sparePartsData[activeIndex].number"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="技术参数" :label-width="formLabelWidth">
-                  <el-input v-model="sparePartsData[activeIndex].parameter"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="10">
-                <el-form-item label="其他" :label-width="formLabelWidth">
-                  <el-input v-model="sparePartsData[activeIndex].other"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
+        <!--新增部分-->
+        <el-table :data="[1]" v-if="data!=='detail'" style="width: 100%">
+          <el-table-column v-for="(value,key,index) in sparePart" :key="index">
+            <template slot-scope="scope">
+              <el-input v-model="sparePart[key]" :placeholder="sparePartName[index]"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column width="150">
+            <template slot-scope="scope">
+              <el-button size="medium" type="primary" @click="newSpareParts">新增</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <!--修改时弹窗部分-->
+        <el-dialog title="设备备件" :visible.sync="sparePartsDialog">
+          <el-form ref="form">
+            <el-col :span="12" v-for="(value,key,index) in sparePart" :key="index">
+              <el-form-item :label="sparePartName[index]" :label-width="formLabelWidth">
+                <el-input v-model="activeData[key]"></el-input>
+              </el-form-item>
+            </el-col>
           </el-form>
           <div slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="dialogFormVisible = false">确定</el-button>
+            <el-button @click="sparePartsDialog = false">取消</el-button>
+            <el-button type="primary" @click="sparePartsDialog = false">确定</el-button>
           </div>
         </el-dialog>
       </el-tab-pane>
+      <!--润滑卡片-->
       <el-tab-pane label="润滑卡片" name="second">
-        <el-table :data="empty" style="width: 100%">
-          <el-table-column prop="name" label="润滑部位"></el-table-column>
-          <el-table-column prop="name" label="润滑点数"></el-table-column>
-          <el-table-column prop="name" label="润滑方式"></el-table-column>
-          <el-table-column prop="name" label="油品型号"></el-table-column>
-          <el-table-column prop="name" label=" 初装油量"></el-table-column>
-          <el-table-column prop="name" label="加油量"></el-table-column>
-          <el-table-column prop="name" label="标准油量"></el-table-column>
-          <el-table-column prop="name" label="润滑周期"></el-table-column>
-          <el-table-column prop="name" label="标准温度"></el-table-column>
-          <el-table-column label="操作">
+        <!--表格部分-->
+        <el-table :data="lubricationData" style="width: 100%">
+          <el-table-column v-for="(value,key,index) in lubrication" :prop="key" :label="lubricationName[index]" :key="index"></el-table-column>
+          <el-table-column label="操作" width="150" v-if="data!=='detail'">
             <template slot-scope="scope">
-              <el-button size="mini" type="success" @click="partEdit(scope.$index, scope.row)">修改</el-button>
+              <el-button size="mini" type="success" @click="lubricationEdit(scope.$index, scope.row)">修改</el-button>
               <el-button size="mini" type="danger" @click="partDelete(scope.$index, scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
+        <!--新增部分-->
+        <el-table :data="[1]" v-if="data!=='detail'" style="width: 100%">
+          <el-table-column v-for="(value,key,index) in lubrication" :key="index">
+            <template slot-scope="scope">
+              <el-input v-model="lubrication[key]" :placeholder="lubricationName[index]"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column width="150">
+            <template slot-scope="scope">
+              <el-button size="medium" type="primary" @click="newLubrication">新增</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <!--修改时弹窗部分-->
+        <el-dialog title="润滑卡片" :visible.sync="lubricationDialog">
+          <el-form ref="form">
+            <el-col :span="12" v-for="(value,key,index) in lubrication" :key="index">
+              <el-form-item :label="lubricationName[index]" :label-width="formLabelWidth">
+                <el-input v-model="activeData[key]"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="lubricationDialog = false">取消</el-button>
+            <el-button type="primary" @click="lubricationDialog = false">确定</el-button>
+          </div>
+        </el-dialog>
       </el-tab-pane>
+      <!--设备参数-->
       <el-tab-pane label="设备参数" name="third">
-        <el-table :data="tableData" style="width: 100%">
+        <el-table :data="lubricationData" style="width: 100%">
           <el-table-column prop="name" label="备件名称">
           </el-table-column>
           <el-table-column prop="name" label="使用部位">
@@ -145,7 +114,12 @@
   export default {
     data() {
       return {
-        sparePartsData: [
+        formLabelWidth: '90px',
+        activeName: 'first',
+        activeData:'',
+        //设备备件
+        sparePartName: ['备件名称', '使用部位', '规格型号', '单位', '装机数量', '技术参数', '其他'],
+        sparePartData: [
           {
             name: '1',
             part: '2',
@@ -165,17 +139,6 @@
             other: '77',
           }
         ],
-        activeIndex: 0,
-        // sparePartsData[activeIndex]: {
-        //   name: '',
-        //   part: '',
-        //   type: '',
-        //   unit: '',
-        //   number: '',
-        //   parameter: '',
-        //   other: '',
-        // },
-        formLabelWidth: '120px',
         sparePart: {
           name: '',
           part: '',
@@ -185,8 +148,45 @@
           parameter: '',
           other: '',
         },
-        activeName: 'first',
-        dialogFormVisible: false
+        sparePartsDialog: false,
+        //润滑卡片
+        lubricationName: ['润滑部位', '润滑点数', '润滑方式', '油品型号', '初装油量', '加油量', '标准油量', '润滑周期', '标准温度'],
+        lubricationData: [
+          {
+            part: 1,
+            count: 1,
+            way: 1,
+            type: 1,
+            firstOil: 1,
+            addOil: 1,
+            norm: 1,
+            period: 1,
+            temperature: 1,
+          },
+          {
+            part: 1,
+            count: 1,
+            way: 1,
+            type: 1,
+            firstOil: 1,
+            addOil: 1,
+            norm: 1,
+            period: 1,
+            temperature: 1,
+          }
+        ],
+        lubrication: {
+          part: '',
+          count: '',
+          way: '',
+          type: '',
+          firstOil: '',
+          addOil: '',
+          norm: '',
+          period: '',
+          temperature: '',
+        },
+        lubricationDialog: false,
       }
     },
     components: {},
@@ -196,18 +196,24 @@
 
     },
     mounted() {
-      console.log(this.$route.query)
     },
     methods: {
       partEdit(index, row) {
-        this.activeIndex = index
-        this.dialogFormVisible = true
+        this.activeData = row
+        this.sparePartsDialog = true
       },
       partDelete(index, row) {
-        this.sparePartsData.splice(index, 1)
+        this.sparePartData.splice(index, 1)
+      },
+      lubricationEdit(index, row) {
+        this.activeIndex = index
+        this.lubricationDialog = true
+      },
+      lubricationDelete(index, row) {
+        this.lubricationDialog.splice(index, 1)
       },
       newSpareParts() {
-        this.sparePartsData.push(this.sparePart)
+        this.sparePartData.push(this.sparePart)
         this.sparePart = {
           name: '',
           part: '',
@@ -216,6 +222,20 @@
           number: '',
           parameter: '',
           other: '',
+        }
+      },
+      newLubrication() {
+        this.lubricationData.push(this.lubrication)
+        this.lubrication = {
+          part: '',
+          count: '',
+          way: '',
+          type: '',
+          firstOil: '',
+          addOil: '',
+          norm: '',
+          period: '',
+          temperature: '',
         }
       }
     }

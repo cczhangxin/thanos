@@ -2,10 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-import monitor from './monitor.js'
+import menu from './menu.js'
 
 export default new Vuex.Store({
   modules: {
-    monitor: monitor
+    menu: menu
   }
 })

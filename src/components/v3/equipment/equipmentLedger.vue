@@ -1,9 +1,25 @@
 <template>
   <div class="item-box">
+    <!--修改时弹窗-->
+    <el-dialog title="设备台账" :visible.sync="dialogFormVisible">
+      <el-form ref="form" label-width="90px">
+        <el-col :span="12" v-for="(value,key,index) in itemData" :key="index">
+          <el-form-item :label="titleName[index]">
+            <el-input v-model="activeData[key]"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确定</el-button>
+      </div>
+    </el-dialog>
+    <!--面包屑-->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>设备管理</el-breadcrumb-item>
       <el-breadcrumb-item>设备台账</el-breadcrumb-item>
     </el-breadcrumb>
+    <!--搜索部分-->
     <header class="header">
       <el-row :gutter="20">
         <el-col :span="4">
@@ -20,13 +36,9 @@
         </el-col>
       </el-row>
     </header>
+    <!--内容-->
     <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="name" label="设备名称"></el-table-column>
-      <el-table-column prop="number" label="设备编号"></el-table-column>
-      <el-table-column prop="type" label="规格型号"></el-table-column>
-      <el-table-column prop="manufacturers" label="生产厂家"></el-table-column>
-      <el-table-column prop="use" label="设备用途"></el-table-column>
-      <el-table-column prop="parameter" label="主要参数"></el-table-column>
+      <el-table-column v-for="(value,key,index) in itemData" :prop="key" :label="titleName[index]" :key="index"></el-table-column>
       <el-table-column label="操作" width="450">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleDetail(scope.$index, scope.row)">详情</el-button>
@@ -37,54 +49,74 @@
         </template>
       </el-table-column>
     </el-table>
+    <!--分页-->
     <el-pagination
       class="page"
       background
       layout="prev, pager, next"
-      :total="1000">
+      :total="500">
     </el-pagination>
   </div>
 </template>
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        equipmentNumber:'',
-        equipmentName:'',
+        equipmentNumber: '',
+        equipmentName: '',
+        titleName: ['设备名称', '设备编号', '规格型号', '生产厂家', '设备用途', '主要参数'],
+        dialogFormVisible: false,
+        activeData:'',
         tableData: [
           {
-            name:'1',
-            number:'2',
-            type:'3',
-            manufacturers:'4',
-            use:'5',
-            parameter:'6'
+            name: '1',
+            number: '2',
+            type: '3',
+            manufacturers: '4',
+            use: '5',
+            parameter: '6'
+          },
+          {
+            name: '1',
+            number: '2',
+            type: '3',
+            manufacturers: '4',
+            use: '5',
+            parameter: '6'
           }
-        ]
+        ],
+        itemData: {
+          name: '1',
+          number: '2',
+          type: '3',
+          manufacturers: '4',
+          use: '5',
+          parameter: '6'
+        },
       }
     },
     components: {},
     props: [],
     computed: {},
-    created(){
+    created() {
 
     },
-    mounted () {
-      this.$http.get('/api/equipments').then(msg=>{
+    mounted() {
+      this.$http.get('/api/equipments').then(msg => {
         console.log(msg)
       })
     },
     methods: {
-      query(){
+      query() {
 
       },
-      newEquipment(){
+      newEquipment() {
         this.$router.push({
           path: '/equipmentEdit'
         })
       },
-      handleDetail (index, row) {
+      handleDetail(index, row) {
         this.$router.push({
           path: '/equipmentDetails',
           query: {
@@ -92,16 +124,17 @@
           }
         })
       },
-      handleEdit (index, row) {
+      handleEdit(index, row) {
+        this.activeData = row
+        this.dialogFormVisible = true
+      },
+      handleDelete(index, row) {
         console.log(index, row);
       },
-      handleDelete (index, row) {
+      handleEquipmentInfo(index, row) {
         console.log(index, row);
       },
-      handleEquipmentInfo (index, row) {
-        console.log(index, row);
-      },
-      handleGenerate (index, row) {
+      handleGenerate(index, row) {
         console.log(index, row);
       }
     }
@@ -119,7 +152,7 @@
     margin-top: 20px;
   }
 
-  .new{
+  .new {
     text-align: right;
   }
 </style>

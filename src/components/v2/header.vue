@@ -7,7 +7,7 @@
       text-color="#fff"
       active-text-color="#ffd04b"
 
-      :default-active="$store.state.monitor.headerActive">
+      :default-active="$store.state.menu.headerActive">
       <el-menu-item v-for="(value,key,index) in menuData" :key="index" :index="(index+1).toString()"
                     @click="handleSelect(key,index)">{{key}}
       </el-menu-item>
@@ -89,14 +89,14 @@
             }
           ]
         },
-
+        activeNow: 0
       }
     },
     components: {},
     props: [],
     computed: {},
     created() {
-      this.$store.state.monitor.headerActive = window.sessionStorage.getItem('headerActive') ? window.sessionStorage.getItem('headerActive') : '1'
+      this.activeNow = this.$store.state.menu.headerActive = window.sessionStorage.getItem('headerActive') ? window.sessionStorage.getItem('headerActive') : '1'
     },
     mounted() {
     },
@@ -104,20 +104,19 @@
       logOut() {
         this.delCookie('user')
         window.sessionStorage.clear()
-        this.$router.push({path: '/login'});
-        // this.$store.commit('login')
+        this.$router.push({path: '/login'})
       },
       handleSelect(key, index) {
-        console.log(String(index + 1))
-        this.$store.state.monitor.menuList = this.menuData[key]
+        if (this.activeNow === String(index+1)) return
+        this.activeNow = String(index+1)
+        this.$store.state.menu.menuList = this.menuData[key]
         window.sessionStorage.setItem('menuList', JSON.stringify(this.menuData[key]))
         window.sessionStorage.setItem('headerActive', String(index + 1))
         window.sessionStorage.setItem('menuActive', this.menuData[key][0].children ? '1-1' : '1')
-        this.$store.state.monitor.menuActive=this.menuData[key][0].children ? '1-1' : '1'
-        // window.sessionStorage.setItem('path',JSON.stringify(this.menuData[key]))
+        this.$store.state.menu.menuActive = this.menuData[key][0].children ? '1-1' : '1'
         this.$router.push({
           path: this.menuData[key][0].link ? this.menuData[key][0].link : this.menuData[key][0].children[0].link
-        });
+        })
       }
     }
   }
