@@ -76,14 +76,14 @@
           if (percentage < 0) {
             percentage = 0
           }
-          if (percentage > 79) {
-            percentage = 79
+          if (percentage > 81.5) {
+            percentage = 81.5
           }
           if (clientY < 0) {
             clientY = 0
           }
-          if (clientY > 660) {
-            clientY = 660
+          if (clientY > 675) {
+            clientY = 675
           }
           item.top = clientY + 'px'
           item.left = percentage + '%'
@@ -178,7 +178,7 @@
         position: fixed;
         right: 0;
         top: 62px;
-        width: 180px;
+        width: 10%;
         height: 97.5%;
         padding: 20px;
       }
@@ -211,7 +211,7 @@
         }
       }
       .switch.show {
-        right: 220px;
+        right: 12.8%;
       }
     }
   }

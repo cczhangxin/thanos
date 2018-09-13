@@ -7,8 +7,8 @@
       text-color="#fff"
       active-text-color="#ffd04b"
 
-      :default-active="$store.state.menu.headerActive">
-      <el-menu-item v-for="(value,key,index) in menuData" :key="index" :index="(index+1).toString()"
+      :default-active="String(activeNow())">
+      <el-menu-item v-for="(value,key,index) in $store.state.menu.menuData" :key="index" :index="key"
                     @click="handleSelect(key,index)">{{key}}
       </el-menu-item>
       <el-menu-item index="6" @click="logOut()" style="float: right;width: 100px;">
@@ -21,84 +21,16 @@
   export default {
     data() {
       return {
-        menuData: {
-          home: [
-            {
-              name: '一级区域',
-              icon: 'fa-video-camera',
-              children: [
-                {name: '电收尘', link: '/monitorPage'},
-                {name: '一线窑头', link: '/'},
-                {name: '煤粉制备', link: '/'},
-                {name: '一线原料磨', link: '/'},
-                {name: '一线均化库', link: '/'},
-              ]
-            },
-            {
-              name: '二线区域',
-              icon: 'fa-video-camera',
-              link: '/'
-            },
-            {
-              name: '发电区域',
-              icon: 'fa-video-camera',
-              children: [
-                {name: '一线汽轮机', link: '/'},
-                {name: '一线锅炉', link: '/'},
-                {name: '二线汽轮机', link: '/'},
-                {name: '二线锅炉', link: '/'},
-                {name: '纯水制备', link: '/'},
-              ]
-            },
-            {
-              name: '公共区域',
-              icon: 'fa-video-camera',
-              children: [
-                {name: '供水供暖', link: '/'},
-              ]
-            },
-            {
-              name: '矿山区域',
-              icon: 'fa-video-camera',
-              children: [
-                {name: '矿山工艺线', link: '/'},
-              ]
-            },
-            {
-              name: '水泥区域',
-              icon: 'fa-video-camera',
-              children: [
-                {name: '水泥磨工艺', link: '/'},
-                {name: '水泥入库', link: '/'},
-                {name: '水泥出库', link: '/'},
-              ]
-            }
-          ],
-          setting: [
-            {
-              name: 123,
-              link: '/equipmentLedger'
-            },
-            {
-              name: 456,
-              link: '/'
-            },
-            {
-              name: 789,
-              link: '/'
-            }
-          ]
-        },
-        activeNow: 0
       }
     },
     components: {},
     props: [],
     computed: {},
     created() {
-      this.activeNow = this.$store.state.menu.headerActive = window.sessionStorage.getItem('headerActive') ? window.sessionStorage.getItem('headerActive') : '1'
     },
     mounted() {
+      // console.log(this.activeNow())
+      this.checkMenu(this.activeNow())
     },
     methods: {
       logOut() {
@@ -106,17 +38,33 @@
         window.sessionStorage.clear()
         this.$router.push({path: '/login'})
       },
-      handleSelect(key, index) {
-        if (this.activeNow === String(index+1)) return
-        this.activeNow = String(index+1)
-        this.$store.state.menu.menuList = this.menuData[key]
-        window.sessionStorage.setItem('menuList', JSON.stringify(this.menuData[key]))
-        window.sessionStorage.setItem('headerActive', String(index + 1))
-        window.sessionStorage.setItem('menuActive', this.menuData[key][0].children ? '1-1' : '1')
-        this.$store.state.menu.menuActive = this.menuData[key][0].children ? '1-1' : '1'
+      handleSelect(key) {
+        this.$store.state.menu.menuList = this.$store.state.menu.menuData[key]
+        window.sessionStorage.setItem('menuList', JSON.stringify(this.$store.state.menu.menuData[key]))
         this.$router.push({
-          path: this.menuData[key][0].link ? this.menuData[key][0].link : this.menuData[key][0].children[0].link
+          path: this.$store.state.menu.menuData[key][0].link ? this.$store.state.menu.menuData[key][0].link : this.$store.state.menu.menuData[key][0].children[0].link
         })
+
+      },
+      checkMenu(key){
+        this.$store.state.menu.menuList = this.$store.state.menu.menuData[key]
+        window.sessionStorage.setItem('menuList', JSON.stringify(this.$store.state.menu.menuData[key]))
+      },
+      activeNow() {
+        for (let key in this.$store.state.menu.menuData) {
+          for (let i = 0; i < this.$store.state.menu.menuData[key].length; i++) {
+            if (this.$store.state.menu.menuData[key][i].link === this.$route.path) {
+              return key
+            }
+            if (this.$store.state.menu.menuData[key][i].children) {
+              for (let e = 0; e < this.$store.state.menu.menuData[key][i].children.length; e++) {
+                if (this.$store.state.menu.menuData[key][i].children[e].link === this.$route.path) {
+                  return key
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
