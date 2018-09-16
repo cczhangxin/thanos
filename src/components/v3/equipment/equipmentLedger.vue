@@ -52,9 +52,14 @@
       :total=Number(total)>
     </el-pagination>
     <!--弹窗-->
-    <el-dialog title="外层 Dialog" :visible.sync="outerVisible" width="80%">
+    <el-dialog title="编辑设备" :visible.sync="outerVisible" width="70%" :close-on-click-modal="false">
       <el-dialog width="30%" title="内层 Dialog" :visible.sync="innerVisible" append-to-body>
       </el-dialog>
+      <el-steps :active="active" finish-status="success">
+        <el-step title="设备基本信息"></el-step>
+        <el-step title="设备备件"></el-step>
+        <el-step title="润滑卡片"></el-step>
+      </el-steps>
       <equipmentEdit></equipmentEdit>
       <div slot="footer" class="dialog-footer">
         <el-button @click="outerVisible = false">取 消</el-button>
@@ -140,14 +145,14 @@
         })
       },
       handleEdit(index, row) {
-        // this.outerVisible = true
-        this.$router.push({
-          path: '/equipmentEdit',
-          query: {
-            data: JSON.stringify(row)
-          }
-        })
-        this.dialogFormVisible = true
+        this.outerVisible = true
+        // this.$router.push({
+        //   path: '/equipmentEdit',
+        //   query: {
+        //     data: JSON.stringify(row)
+        //   }
+        // })
+        // this.dialogFormVisible = true
       },
       handleDelete(item) {
         this.$confirm('确认删除?', '提示', {

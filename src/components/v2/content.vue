@@ -79,7 +79,7 @@
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    background: #f9fafc;
+    background: #f0f2f5;
     padding: 20px;
   }
 

@@ -5,18 +5,18 @@
         <h3>设备监控系统管理台</h3>
       </dt>
       <dd class="user_icon">
-        <el-input v-model="userName" placeholder="用户名">
+        <el-input v-model="userName" placeholder="用户名" clearable>
           <i slot="prefix" class="el-input__icon fa fa-user"></i>
         </el-input>
       </dd>
       <dd class="pwd_icon">
-        <el-input v-model="userPwd" placeholder="密码" type="password">
+        <el-input v-model="userPwd" placeholder="密码" type="password" clearable>
           <i slot="prefix" class="el-input__icon fa fa-key"></i>
         </el-input>
       </dd>
       <dd class="val_icon">
         <div class="checkcode">
-          <el-input v-model="inputCode" class="inputCode" placeholder="验证码" maxlength="4"></el-input>
+          <el-input v-model="inputCode" class="inputCode" placeholder="验证码" maxlength="4" clearable></el-input>
           <canvas id="CodeCanvas" @click="createCode()"></canvas>
         </div>
       </dd>

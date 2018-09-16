@@ -16,11 +16,16 @@ import userManger from '../components/v3/setting/user/userManger.vue'
 import addUser from '../components/v3/setting/user/addUser.vue'
 import proFlowMan from '../components/v3/setting/proFlow/proFlowMan.vue'
 import addProFlow from '../components/v3/setting/proFlow/addProFlow'
+import NotFound from '../components/NotFound'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: '/login',
+      component: login
+    },
     {
       path: '/',
       component: home,
@@ -108,12 +113,12 @@ export default new Router({
           path: '/equipmentEdit',
           component: equipmentEdit,
           beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-        }
+        },
+        // {
+        //   path: '/*',
+        //   component: NotFound
+        // }
       ]
-    },
-    {
-      path: '/login',
-      component: login
     }
   ]
 })
@@ -139,7 +144,12 @@ function activeNow(path) {
 function checkedPermission(to, from, next) {
   store.state.menu.menuList = store.state.menu.menuData[activeNow(to.path)]
   window.sessionStorage.setItem('menuList', JSON.stringify(store.state.menu.menuData[activeNow(to.path)]))
-  next()
+  if (activeNow(to.path)) {
+    next()
+  } else {
+    return
+  }
+
 }
 
 function getCookie(cname) {
