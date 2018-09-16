@@ -1,58 +1,42 @@
 <template>
     <div class="item-box">
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
+        <el-form :inline="true" :model="form" class="demo-form-inline">
             <el-form-item label="">
-                <el-input v-model="formInline.user" placeholder=" 请输入部门名称查询"></el-input>
+                <el-input v-model="form.name" placeholder=" 请输入部门名称查询"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">查询</el-button>
             </el-form-item>
             <el-form-item style="float:right">
-                <el-button type="primary" plain>新建部门</el-button>
+                    <router-link to="addDepart">
+                        <el-button type="primary" plain>新建部门</el-button>
+                    </router-link>
             </el-form-item>
         </el-form>
         <el-table
                 :data="tableData"
                 style="width: 100%">
-            <el-table-column
-                    label="序号"
-                    >
-            </el-table-column>
-            <el-table-column
+            <el-table-column prop="name"
                     label="部门名称"
                     >
-                <template slot-scope="scope">
-                    <i class="el-icon-time"></i>
-                    <span style="margin-left: 10px">{{ scope.row.date }}</span>
-                </template>
             </el-table-column>
             <el-table-column
-                    label="部门电话"
+                    label="部门电话" prop="telephone"
                     >
-                <template slot-scope="scope">
-                    <el-popover trigger="hover" placement="top">
-                        <p>姓名: {{ scope.row.name }}</p>
-                        <p>住址: {{ scope.row.address }}</p>
-                        <div slot="reference" class="name-wrapper">
-                            <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                        </div>
-                    </el-popover>
-                </template>
             </el-table-column>
-            <el-table-column
+            <el-table-column prop="parent.name"
                     label="上级部门"
                     >
             </el-table-column>
-            <el-table-column
+            <el-table-column prop="remark"
                     label="备注"
                     >
             </el-table-column>
             <el-table-column label="操作">
                 <template slot-scope="scope">
-                    <el-button
-                            size="mini"
-                            type="success"
-                            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <router-link :to="['editDepart/']+scope.row.id">
+                        <el-button size="mini" type="success">编辑</el-button>
+                    </router-link>
                     <el-button
                             size="mini"
                             type="danger"
@@ -60,10 +44,7 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-pagination class="page"
-                background
-                layout="prev, pager, next"
-                :total="1000">
+        <el-pagination class="page" @size-change="handlePageSizeChange" @current-change="curChange" :current-page="pagination.currentPage" :page-sizes="pagination.pageSizes" :page-size="pagination.currentPageSize" :layout="pagination.layout" :total="pagination.total">
         </el-pagination>
     </div>
 </template>
@@ -80,43 +61,79 @@
 </style>
 
 <script>
+    import pagination from '../../../mixins/pagination';
     export default {
         name: 'departManger',
+        mounted:function(){
+            this.getDeparts();
+        },
+        mixins: [pagination],
         data() {
-            const item = {
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            };
+            const item = {};
             return {
-                tableData: [{
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
-                }],
-                formInline: {
-                    user: '',
-                    region: ''
-                },
+                tableData: [],
+                totalitems: 0,
+                form: {
+                    name: '',
+                    page:1,
+                    size:10,
+                    companyId:"5b7f6b1ce7a4d48d1af01f56"
+                }
             }
         },
         methods: {
             onSubmit() {
-                console.log('submit!');
+                this.getDeparts();
+            },
+            getDeparts(){
+                let that = this;
+                that.form.page = that.form.page - 1;
+                this.$http.get('/api/departments', {"params":that.form}).then(
+                    res => {
+                        that.tableData = res.data.items;
+                        that.totalitems = parseInt(res.data.totalitems);
+                        that.pagination.total = that.totalItems;
+                        that.pagination.currentPageSize = that.form.size;
+                        that.pagination.currentPage = that.form.page + 1;
+                    }).catch(function (error) {
+                    that.$message({
+                        message: error,
+                        type: 'error'
+                    });
+                });
+            },
+            handlePageSizeChange(pagesize) {
+                this.pagination.pageNumber = pagesize;
+                this.form.size = pagesize;
+                this.getDeparts();
+            },
+            curChange(pageno) {
+                this.form.page = pageno;
+                this.getDeparts();
+            },
+            handleEdit (index, row) {
+                console.log(index, row);
+            },
+            handleDelete (index, row) {
+                this.deletDepart(row.id);
+                this.getDeparts();
+            },
+            deletDepart(id){
+                let that = this;
+                this.$http.delete('/api/departments/'+id).then((res)=>{
+                    that.$message({
+                        message: '删除成功',
+                        type: 'success'
+                    });
+                    that.getDeparts();
+                }).catch(function(error){
+                    that.$message({
+                        message: error,
+                        type: 'error'
+                    });
+                });
             }
-        }
+        },
     };
 </script>
 <style scoped>

@@ -39,7 +39,7 @@ export default new Router({
           component: addDepart
         },
         {
-          path: 'editDepart',
+          path: 'editDepart/:id',
           component: addDepart
         },
 

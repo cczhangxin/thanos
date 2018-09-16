@@ -5,10 +5,21 @@
                 <el-input v-model="ruleForm.name" placeholder="请输入角色名称"></el-input>
             </el-form-item>
             <el-form-item label="权限分配" prop="region">
-                <el-select v-model="ruleForm.region" placeholder="请选择权限">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
+                <template>
+                    <el-select v-model="ruleForm.permissions" placeholder="请选择" multiple size="medium">
+                        <el-option-group
+                                v-for="(item, index) in permissions"
+                                :key="index"
+                                :label="index">
+                            <el-option
+                                    v-for="im in item"
+                                    :key="im.methodGenericString"
+                                    :label="im.name"
+                                    :value="im.methodGenericString">
+                            </el-option>
+                        </el-option-group>
+                    </el-select>
+                </template>
             </el-form-item>
             <el-form-item label="活动性质" prop="type">
                 <el-checkbox-group v-model="ruleForm.type">
@@ -24,8 +35,8 @@
                     </div>
                 </el-checkbox-group>
             </el-form-item>
-            <el-form-item label="备注" prop="resource">
-                <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+            <el-form-item label="备注" prop="remark">
+                <el-input type="textarea" v-model="ruleForm.remark"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
@@ -51,6 +62,7 @@
         name: 'addRole',
         data() {
             return {
+                permissions: {},
                 ruleForm: {
                     name: '',
                     region: '',
@@ -59,14 +71,15 @@
                     delivery: false,
                     type: [],
                     resource: '',
-                    desc: ''
+                    desc: '',
+                    permissions: []
                 },
                 rules: {
                     name: [
                         { required: true, message: '请输入活动名称', trigger: 'blur' },
                         { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
                     ],
-                    region: [
+                    permissions: [
                         { required: true, message: '请选择权限', trigger: 'change' }
                     ],
                     date1: [
@@ -81,11 +94,14 @@
                     resource: [
                         { required: true, message: '请选择活动资源', trigger: 'change' }
                     ],
-                    desc: [
+                    remark: [
                         { required: true, message: '请填写活动形式', trigger: 'blur' }
                     ]
                 }
             }
+        },
+        mounted(){
+            this.getPermissions();
         },
         methods: {
             submitForm(formName) {
@@ -97,9 +113,22 @@
                         return false;
                     }
                 });
+                console.log(this.ruleForm);
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
+            },
+            getPermissions(){
+                let that = this;
+                this.$http.get('/api/permissions').
+                then((res)=>{
+                    that.permissions = res.data || {};
+                }).catch(function (error) {
+                    that.$message({
+                        message: error,
+                        type: 'error'
+                    });
+                });
             }
         }
     };
