@@ -109,7 +109,7 @@
     },
     methods: {
       getTableData() {
-        this.$http.get('/api/equipments', {
+        this.$http.get('/equipments', {
           params: {
             page: this.pageNow - 1,
             size: this.pageSize
@@ -127,7 +127,7 @@
         })
       },
       getCategory() {
-        this.$http.get('/api/categories').then(response => {
+        this.$http.get('/categories').then(response => {
           this.categoryOptions = response.data
         })
       },
@@ -145,14 +145,14 @@
         })
       },
       handleEdit(index, row) {
-        this.outerVisible = true
-        // this.$router.push({
-        //   path: '/equipmentEdit',
-        //   query: {
-        //     data: JSON.stringify(row)
-        //   }
-        // })
-        // this.dialogFormVisible = true
+        // this.outerVisible = true
+        this.$router.push({
+          path: '/equipmentEdit',
+          query: {
+            data: JSON.stringify(row)
+          }
+        })
+        this.dialogFormVisible = true
       },
       handleDelete(item) {
         this.$confirm('确认删除?', '提示', {

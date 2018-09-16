@@ -113,16 +113,16 @@
     },
     methods: {
       getCategory() {
-        this.$http.get('/api/categories').then(response => {
+        this.$http.get('/categories').then(response => {
           this.categoryOptions = response.data
           // console.log(response.data)
         })
       },
       addEquipments() {
         let way = 'post'
-        let api = '/api/equipments'
+        let api = '/equipments'
         if (this.itemId) {
-          api = `/api/equipments/${this.itemId}`
+          api = `/equipments/${this.itemId}`
           way = 'put'
         }
         this.itemData.params = this.params

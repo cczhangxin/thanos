@@ -306,13 +306,13 @@
     methods: {
       getData() {
         if (this.itemId) {
-          this.$http.get(`/api/equipments/${this.itemId}/${this.tabActive}`).then(response => {
+          this.$http.get(`/equipments/${this.itemId}/${this.tabActive}`).then(response => {
             this[this.tabActive] = response.data.items
           })
         }
       },
       editItem() {
-        this.$http.put(`/api/equipments/${this.itemId}/${this.tabActive}/${this.activeData.id}`, this.activeData).then(response => {
+        this.$http.put(`/equipments/${this.itemId}/${this.tabActive}/${this.activeData.id}`, this.activeData).then(response => {
           this.checkResponse(response)
           this.dialog = false
           this[this.tabActive] = response.data.items
@@ -326,7 +326,7 @@
           type: 'warning'
         }).then(() => {
           this.activeData = row
-          this.$http.delete(`/api/equipments/${this.itemId}/${this.tabActive}/${this.activeData.id}`, this.activeData).then(response => {
+          this.$http.delete(`/equipments/${this.itemId}/${this.tabActive}/${this.activeData.id}`, this.activeData).then(response => {
             this.checkResponse(response,'删除成功')
             this[this.tabActive] = response.data.items
             this.getData()
@@ -336,7 +336,7 @@
       },
       add(item) {
         if (this.itemId) {
-          this.$http.post(`/api/equipments/${this.itemId}/${this.tabActive}`, this[item]).then(response => {
+          this.$http.post(`/equipments/${this.itemId}/${this.tabActive}`, this[item]).then(response => {
             this.checkResponse(response)
             for(let key in this[item]){
               this[item]={}
