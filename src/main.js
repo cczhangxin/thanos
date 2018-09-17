@@ -8,11 +8,13 @@ import router from './router'
 import store from './vuex/store'
 import util from '../static/js/util'
 import axios from 'axios'
+import './components/common'
 
 Vue.use(ElementUI);
 Vue.use(util);
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
+
 
 /* eslint-disable no-new */
 new Vue({

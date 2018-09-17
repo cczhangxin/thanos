@@ -90,14 +90,26 @@
         },
         methods: {
             submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        alert('submit!');
-                    } else {
-                        console.log('error submit!!');
-                        return false;
+                // this.$refs[formName].validate((valid) => {
+                //     if (valid) {
+                //         alert('submit!');
+                //     } else {
+                //         console.log('error submit!!');
+                //         return false;
+                //     }
+                // });
+                let param = {
+                    "companyId": "string",
+                    "realname": "string",
+                    "username": "string"
+                };
+                this.$http.post('/api/users',
+                    {
+                        params: param
                     }
-                });
+                ).then(()=>{
+
+                })
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
