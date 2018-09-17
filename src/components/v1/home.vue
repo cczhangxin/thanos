@@ -36,11 +36,11 @@
 
   .item-box {
     background: #fff;
-    border: 1px solid #eee;
     border-radius: 4px;
     padding: 20px;
     overflow: auto;
-    border-top: 2px solid #409EFF;
+    border-color: rgba(0,0,0,.05);
+    box-shadow: 4px 4px 40px rgba(0,0,0,.05);
   }
 
   /*浏览器滚动条样式*/
@@ -56,6 +56,10 @@
   ::-webkit-scrollbar-thumb:vertical {
     background-color: #999;
     -webkit-border-radius: 6px;
+  }
+
+  .el-dialog__body{
+    overflow: auto;
   }
 
   /*.el-menu-item.is-active {*/

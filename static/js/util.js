@@ -16,5 +16,18 @@ export default {
       if (cval != null)
         document.cookie = name + "=" + cval + ";expires=" + date.toGMTString();
     }
+    Vue.prototype.checkResponse = function (response,successMsg,errMsg) {
+      if (response.status === 200) {
+        this.$message({
+          message: successMsg || '操作成功！',
+          type: 'success'
+        });
+      } else {
+        this.$message({
+          message: errMsg || '操作失败！',
+          type: 'error'
+        });
+      }
+    }
   }
 }

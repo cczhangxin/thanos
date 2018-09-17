@@ -2,25 +2,28 @@
   <div class="login" @keyup.enter="login">
     <dl class="login-box">
       <dt>
-        <h3>账号密码admin</h3>
-        <em>Management System</em>
+        <h3>设备监控系统管理台</h3>
       </dt>
       <dd class="user_icon">
-        <input type="text" placeholder="用户名" v-model="userName"/>
+        <el-input v-model="userName" placeholder="用户名" clearable>
+          <i slot="prefix" class="el-input__icon fa fa-user"></i>
+        </el-input>
       </dd>
       <dd class="pwd_icon">
-        <input type="password" placeholder="密码" v-model="userPwd"/>
+        <el-input v-model="userPwd" placeholder="密码" type="password" clearable>
+          <i slot="prefix" class="el-input__icon fa fa-key"></i>
+        </el-input>
       </dd>
       <dd class="val_icon">
         <div class="checkcode">
-          <input type="text" class="inputCode" placeholder="验证码" maxlength="4" v-model="inputCode"/>
+          <el-input v-model="inputCode" class="inputCode" placeholder="验证码" maxlength="4" clearable></el-input>
           <canvas id="CodeCanvas" @click="createCode()"></canvas>
         </div>
       </dd>
       <dd>
         <button type="button" class="submitBtn" :disabled="loading" @click="login()">
           <i :class="{'el-icon-loading':loading}"></i>
-          {{loading?'登录中...':'登录'}}
+          {{loading?'登录中...':'登 录'}}
         </button>
       </dd>
       <dd>
@@ -31,7 +34,7 @@
 </template>
 <script>
   import $ from 'jquery'
-  import particleground from '../../../static/js/Particleground'
+  // import particleground from '../../../static/js/Particleground'
 
   export default {
     data() {
@@ -61,16 +64,16 @@
       showCheck(a) {
         let c = document.getElementById("CodeCanvas");
         let ctx = c.getContext("2d");
-        ctx.fillStyle = "#fff";
+        ctx.fillStyle = "#BCBCBC";
         ctx.clearRect(0, 0, 1000, 1000);
         ctx.font = "80px 'Microsoft Yahei'";
         ctx.fillText(a, 0, 100);
       },
       createCode() {
-        $('.login').particleground({
-          dotColor: '#999999',
-          lineColor: '#999999'
-        });
+        // $('.login').particleground({
+        //   dotColor: '#999999',
+        //   lineColor: '#999999'
+        // });
         this.code = "";
         let codeLength = 4;
         let selectChar = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -138,7 +141,7 @@
     height: 100%;
     width: 100%;
     color: #eaeaea;
-    background-color: rgb(84, 92, 100);
+    background-color: #009999;
     .login-box {
       position: absolute;
       top: 15%;
@@ -149,14 +152,21 @@
       width: 300px;
       margin: 0 auto;
       padding: 50px;
-      box-shadow: 0 -10px 16px 3px #41464a;
-      border-radius: 5px;
+      background: #fff;
+      box-shadow: 0 0 10px 4px #066f6f;
+      border-radius: 8px;
+      h3{
+        color: #009999;
+        font-weight: bold;
+        font-size: 22px;
+        margin-bottom: 30px;
+      }
       dt {
         text-align: center;
         margin-bottom: 20px;
       }
       dd {
-        margin-bottom: 5px;
+        margin-bottom: 20px;
       }
       input, .submitBtn {
         font-size: 14px;
@@ -165,7 +175,8 @@
         text-indent: 2em;
         border: none;
         width: 100%;
-        background-color: #4a4f54;
+        border-radius: 4px;
+        background: #009999;
         color: #fff;
       }
       .submitBtn {
@@ -175,15 +186,12 @@
         outline: none;
       }
       #CodeCanvas {
-        width: 85px;
+        width: 80px;
         height: 44px;
         padding-left: 20px;
         float: right;
         z-index: 0;
-        background: #4a4f54;
-      }
-      .submit_btn:hover {
-        background: #46494c;
+        background: #fff;
       }
       .inputCode {
         width: 194px;
