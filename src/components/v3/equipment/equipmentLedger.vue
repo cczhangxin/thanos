@@ -109,7 +109,7 @@
     },
     methods: {
       getTableData() {
-        this.$http.get('/equipments', {
+        this.$http.get('/api/equipments', {
           params: {
             page: this.pageNow - 1,
             size: this.pageSize
@@ -127,7 +127,7 @@
         })
       },
       getCategory() {
-        this.$http.get('/categories').then(response => {
+        this.$http.get('/api/categories').then(response => {
           this.categoryOptions = response.data
         })
       },
