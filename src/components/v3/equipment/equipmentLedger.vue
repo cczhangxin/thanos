@@ -51,21 +51,21 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total=Number(total)>
     </el-pagination>
-    <!--弹窗-->
-    <el-dialog title="编辑设备" :visible.sync="outerVisible" width="70%" :close-on-click-modal="false">
-      <el-dialog width="30%" title="内层 Dialog" :visible.sync="innerVisible" append-to-body>
-      </el-dialog>
-      <el-steps :active="active" finish-status="success">
-        <el-step title="设备基本信息"></el-step>
-        <el-step title="设备备件"></el-step>
-        <el-step title="润滑卡片"></el-step>
-      </el-steps>
-      <equipmentEdit></equipmentEdit>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="outerVisible = false">取 消</el-button>
-        <el-button type="primary" @click="innerVisible = true">打开内层 Dialog</el-button>
-      </div>
-    </el-dialog>
+    <!--&lt;!&ndash;弹窗&ndash;&gt;-->
+    <!--<el-dialog title="编辑设备" :visible.sync="outerVisible" width="70%" :close-on-click-modal="false">-->
+      <!--<el-dialog width="30%" title="内层 Dialog" :visible.sync="innerVisible" append-to-body>-->
+      <!--</el-dialog>-->
+      <!--<el-steps :active="active" finish-status="success">-->
+        <!--<el-step title="设备基本信息"></el-step>-->
+        <!--<el-step title="设备备件"></el-step>-->
+        <!--<el-step title="润滑卡片"></el-step>-->
+      <!--</el-steps>-->
+      <!--<equipmentEdit></equipmentEdit>-->
+      <!--<div slot="footer" class="dialog-footer">-->
+        <!--<el-button @click="outerVisible = false">取 消</el-button>-->
+        <!--<el-button type="primary" @click="innerVisible = true">打开内层 Dialog</el-button>-->
+      <!--</div>-->
+    <!--</el-dialog>-->
   </div>
 </template>
 
