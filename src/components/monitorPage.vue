@@ -1,12 +1,12 @@
 <template>
     <div class="box">
       <section class="section">
-        <img v-for="item in videos" class="item-img" src="../../../static/images/video.png"
+        <img v-for="item in videos" class="item-img" src="../../static/images/video.png"
              :style="{top:item.top,left:item.left}"
              :info="item"
              @contextmenu="showMenu($event,item,'videos')"
              @mousedown='drag($event,item)' alt="">
-        <img v-for="item in oils" class="item-img" src="../../../static/images/oil.png"
+        <img v-for="item in oils" class="item-img" src="../../static/images/oil.png"
              :style="{top:item.top,left:item.left}"
              :info="item"
              @contextmenu="showMenu($event,item,'oils')"
@@ -147,7 +147,7 @@
     .section {
       width: 80%;
       height: 660px;
-      background: url("../../../static/images/22.jpg") no-repeat #fff;
+      background: url("../../static/images/22.jpg") no-repeat #fff;
       background-size: 100% 100%;
       border: 1px solid #eee;
       .item-img {

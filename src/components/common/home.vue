@@ -1,23 +1,12 @@
 <template>
   <div id="container">
-    <Header></Header>
     <Content></Content>
   </div>
 </template>
 <script>
-  import Header from '../v2/header'
-  import Content from '../v2/content'
-
+  import Content from './content'
   export default {
-    data() {
-      return {}
-    },
-    components: {Header, Content},
-    props: [],
-    computed: {},
-    mounted() {
-    },
-    methods: {}
+    components: {Content},
   }
 </script>
 <style>
@@ -62,6 +51,17 @@
     overflow: auto;
   }
 
+  #header{
+    padding-left: 200px;
+    background: #409EFF;
+  }
+  .el-submenu__title i{
+    color: #ffd04b;
+  }
+
+  #content .el-submenu__title i{
+    color: #909399;
+  }
   /*.el-menu-item.is-active {*/
     /*background: #ecf5ff;*/
     /*border-right: 2px solid #007bff;*/

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-  import equipmentUtil from '../equipment/equipmentUtil'
+  import equipmentUtil from './equipmentUtil'
 
   export default {
     data() {

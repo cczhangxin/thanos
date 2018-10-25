@@ -1,22 +1,23 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import router from '../router'
-import login from '../components/v1/login.vue'
+import login from '../components/login.vue'
 import store from '../vuex/store'
-import home from '../components/v1/home.vue'
-import monitorPage from '../components/v3/monitorPage.vue'
-import equipmentLedger from '../components/v3/equipment/equipmentLedger.vue'
-import equipmentDetails from '../components/v3/equipment/equipmentDetails.vue'
-import equipmentEdit from '../components/v3/equipment/equipmentEdit.vue'
-import departManger from '../components/v3/setting/dePart/departManger.vue'
-import addDepart from '../components/v3/setting/dePart/addDepart.vue'
-import roleManger from '../components/v3/setting/role/RoleManger.vue'
-import addRole from '../components/v3/setting/role/addRole.vue'
-import userManger from '../components/v3/setting/user/userManger.vue'
-import addUser from '../components/v3/setting/user/addUser.vue'
-import proFlowMan from '../components/v3/setting/proFlow/proFlowMan.vue'
-import addProFlow from '../components/v3/setting/proFlow/addProFlow'
-import NotFound from '../components/NotFound'
+import home from '../components/common/home.vue'
+import test from '../components/common/test.vue'
+import monitorPage from '../components/monitorPage.vue'
+import equipmentLedger from '../components/equipmentManage/equipmentLedger.vue'
+import equipmentDetails from '../components/equipmentManage/equipmentDetails.vue'
+import equipmentEdit from '../components/equipmentManage/equipmentEdit.vue'
+import departManger from '../components/setting/dePart/departManger.vue'
+import addDepart from '../components/setting/dePart/addDepart.vue'
+import roleManger from '../components/setting/role/RoleManger.vue'
+import addRole from '../components/setting/role/addRole.vue'
+import userManger from '../components/setting/user/userManger.vue'
+import addUser from '../components/setting/user/addUser.vue'
+import proFlowMan from '../components/setting/proFlow/proFlowMan.vue'
+import addProFlow from '../components/setting/proFlow/addProFlow'
+import notFound from '../components/notFound'
 
 Vue.use(Router)
 
@@ -114,42 +115,21 @@ export default new Router({
           component: equipmentEdit,
           beforeEnter: (to, from, next) => checkedPermission(to, from, next)
         },
-        // {
-        //   path: '/*',
-        //   component: NotFound
-        // }
+        {
+          path: '/test',
+          component: test
+        },
+        {
+          path: '/*',
+          component: notFound
+        }
       ]
     }
   ]
 })
 
-function activeNow(path) {
-  for (let key in store.state.menu.menuData) {
-    for (let i = 0; i < store.state.menu.menuData[key].length; i++) {
-      if (store.state.menu.menuData[key][i].link === path) {
-        return key
-      }
-      if (store.state.menu.menuData[key][i].children) {
-        for (let e = 0; e < store.state.menu.menuData[key][i].children.length; e++) {
-          if (store.state.menu.menuData[key][i].children[e].link === path) {
-            return key
-          }
-        }
-      }
-    }
-  }
-}
-
-
 function checkedPermission(to, from, next) {
-  store.state.menu.menuList = store.state.menu.menuData[activeNow(to.path)]
-  window.sessionStorage.setItem('menuList', JSON.stringify(store.state.menu.menuData[activeNow(to.path)]))
-  if (activeNow(to.path)) {
-    next()
-  } else {
-    return
-  }
-
+  next()
 }
 
 function getCookie(cname) {
@@ -163,6 +143,8 @@ function getCookie(cname) {
 }
 
 router.beforeEach((to, from, next) => {
+  store.state.menu.headerActive = to.path
+  window.sessionStorage.setItem('headerActive', to.path)
   if (to.matched.some((r) => r.meta.requireAuth)) {
     if (getCookie('user')) {
       next();

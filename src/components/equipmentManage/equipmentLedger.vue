@@ -70,7 +70,7 @@
 </template>
 
 <script>
-  import equipmentEdit from '../equipment/equipmentEdit'
+  import equipmentEdit from './equipmentEdit'
 
   export default {
     data() {
@@ -191,8 +191,8 @@
   }
 
   .header {
-    margin-bottom: 40px;
-    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-top: 40px;
   }
 
   .new {
