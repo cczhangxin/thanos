@@ -1,9 +1,10 @@
 ## 项目说明
 
 ``` bash
-基于vue全家桶(vue-router+vuex+axios+es6)+element-ui+cssLess构建
-使用jQuery和cssLess参考--login.vue
-全局引入的文件:
+组件命名、函数命名规则  峰驼式  （itemBox）
+id、class命名规则     横线分割 （item-box）
+ vue-router+vuex+axios+es6+element-ui+cssLess构建
+引入的文件:
   animate.css ==> 动画
   font-awesome-4.7.0 ==> 图标
   es6-promise.auto.min.js ==>解决IE使用axios时Promise未定义问题

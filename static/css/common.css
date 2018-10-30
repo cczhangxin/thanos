@@ -50,3 +50,59 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+/*浏览器滚动条样式*/
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: #ccc;
+  -webkit-border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  background-color: #999;
+  -webkit-border-radius: 6px;
+}
+
+body {
+  font-family: "Microsoft Yahei";
+  background: #f0f2f5;
+  min-width: 1060px;
+}
+
+#header {
+  padding-left: 240px;
+}
+
+#header .el-submenu__title i {
+  color: #ffd04b;
+}
+
+.item-box {
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  overflow: auto;
+  border-color: rgba(0, 0, 0, .05);
+  box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
+}
+
+.table-pagination {
+  float: right;
+  margin-top: 20px;
+}
+
+.header-search {
+  margin-bottom: 20px;
+  margin-top: 40px;
+}
+
+.header-add-btn {
+  float: right;
+}
+
+.header-search .el-input,.header-search .el-select{
+  margin-right: 20px;
+}
