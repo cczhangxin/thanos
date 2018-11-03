@@ -1,26 +1,37 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import router from '../router'
-import login from '../components/v1/login.vue'
+import login from '../components/login'
 import store from '../vuex/store'
-import home from '../components/v1/home.vue'
-import monitorPage from '../components/v3/monitorPage.vue'
-import equipmentLedger from '../components/v3/equipment/equipmentLedger.vue'
-import equipmentDetails from '../components/v3/equipment/equipmentDetails.vue'
-import equipmentEdit from '../components/v3/equipment/equipmentEdit.vue'
-import departManger from '../components/v3/setting/dePart/departManger.vue'
-import addDepart from '../components/v3/setting/dePart/addDepart.vue'
-import roleManger from '../components/v3/setting/role/RoleManger.vue'
-import addRole from '../components/v3/setting/role/addRole.vue'
-import userManger from '../components/v3/setting/user/userManger.vue'
-import addUser from '../components/v3/setting/user/addUser.vue'
-import proFlowMan from '../components/v3/setting/proFlow/proFlowMan.vue'
-import addProFlow from '../components/v3/setting/proFlow/addProFlow'
-import NotFound from '../components/NotFound'
+import header from '../components/common/header'
+import notFound from '../components/notFound'
+import test from '../components/common/test'
+import monitorPage from '../components/monitorPage'
+//设备管理
+import equipmentLedger from '../components/equipmentManage/equipmentLedger'
+import produceAndProcess from '../components/equipmentManage/produceAndProcess'
+import fixedAssets from '../components/equipmentManage/fixedAssets'
+import equipmentDetails from '../components/equipmentManage/equipmentDetails'
+import equipmentEdit from '../components/equipmentManage/equipmentEdit'
+import oilManage from '../components/equipmentManage/oilManage'
+//设备管理在线管理
+import technologicalProcess from '../components/equipmentOnLine/technologicalProcess'
+import maintenanceOrder from '../components/equipmentOnLine/maintenanceOrder'
+
+import departManger from '../components/setting/dePart/departManger'
+import addDepart from '../components/setting/dePart/addDepart'
+import roleManger from '../components/setting/role/RoleManger'
+import addRole from '../components/setting/role/addRole'
+import userManger from '../components/setting/user/userManger'
+import addUser from '../components/setting/user/addUser'
+import proFlowMan from '../components/setting/proFlow/proFlowMan'
+import addProFlow from '../components/setting/proFlow/addProFlow'
+
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/login',
@@ -28,14 +39,65 @@ export default new Router({
     },
     {
       path: '/',
-      component: home,
+      component: header,
       meta: {
-        requireAuth: false,
+        requireAuth: true,
       },
       children: [
         {
+          path: '/test',
+          component: test
+        },
+        {
           path: '/monitorPage',
           component: monitorPage,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        //设备管理
+        {
+          path: '/equipmentLedger',
+          component: equipmentLedger,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/equipmentLedger',
+          component: equipmentLedger,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/equipmentDetails',
+          component: equipmentDetails,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/equipmentDetails',
+          component: equipmentDetails,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/fixedAssets',
+          component: fixedAssets,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/produceAndProcess',
+          component: produceAndProcess,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/oilManage',
+          component: oilManage,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        //设备管理在线管理
+        {
+          path: '/technologicalProcess',
+          component: technologicalProcess,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/maintenanceOrder',
+          component: maintenanceOrder,
           beforeEnter: (to, from, next) => checkedPermission(to, from, next)
         },
         {
@@ -100,56 +162,16 @@ export default new Router({
           beforeEnter: (to, from, next) => checkedPermission(to, from, next)
         },
         {
-          path: '/equipmentLedger',
-          component: equipmentLedger,
-          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-        },
-        {
-          path: '/equipmentDetails',
-          component: equipmentDetails,
-          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-        },
-        {
-          path: '/equipmentEdit',
-          component: equipmentEdit,
-          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-        },
-        // {
-        //   path: '/*',
-        //   component: NotFound
-        // }
+          path: '/*',
+          component: notFound
+        }
       ]
     }
   ]
 })
 
-function activeNow(path) {
-  for (let key in store.state.menu.menuData) {
-    for (let i = 0; i < store.state.menu.menuData[key].length; i++) {
-      if (store.state.menu.menuData[key][i].link === path) {
-        return key
-      }
-      if (store.state.menu.menuData[key][i].children) {
-        for (let e = 0; e < store.state.menu.menuData[key][i].children.length; e++) {
-          if (store.state.menu.menuData[key][i].children[e].link === path) {
-            return key
-          }
-        }
-      }
-    }
-  }
-}
-
-
 function checkedPermission(to, from, next) {
-  store.state.menu.menuList = store.state.menu.menuData[activeNow(to.path)]
-  window.sessionStorage.setItem('menuList', JSON.stringify(store.state.menu.menuData[activeNow(to.path)]))
-  if (activeNow(to.path)) {
-    next()
-  } else {
-    return
-  }
-
+  next()
 }
 
 function getCookie(cname) {
@@ -163,6 +185,8 @@ function getCookie(cname) {
 }
 
 router.beforeEach((to, from, next) => {
+  store.state.menu.headerActive = to.path
+  window.sessionStorage.setItem('headerActive', to.path)
   if (to.matched.some((r) => r.meta.requireAuth)) {
     if (getCookie('user')) {
       next();

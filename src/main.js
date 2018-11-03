@@ -13,6 +13,7 @@ import './components/common'
 Vue.use(ElementUI);
 Vue.use(util);
 Vue.config.productionTip = false
+
 Vue.prototype.$http = axios
 
 

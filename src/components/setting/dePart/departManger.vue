@@ -69,7 +69,7 @@
 </style>
 
 <script>
-    import pagination from '../../../mixins/pagination';
+    import pagination from '../../mixins/pagination';
     export default {
         name: 'departManger',
         mounted:function(){

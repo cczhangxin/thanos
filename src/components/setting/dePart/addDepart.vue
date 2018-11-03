@@ -32,7 +32,7 @@
 </style>
 
 <script>
-    import Departpicker from "../../../common/departpicker";
+    import Departpicker from "../../common/departpicker";
     export default {
         name: 'addDepart',
         components: {Departpicker},
