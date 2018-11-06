@@ -1,17 +1,17 @@
 <template>
   <div class="login" @keyup.enter="login">
-    <dl class="login-box">
+    <dl class="login-box animated zoomIn">
       <dt>
         <h3>设备监控系统管理台</h3>
       </dt>
       <dd class="user_icon">
         <el-input v-model="userName" placeholder="用户名" clearable>
-          <i slot="prefix" class="el-input__icon fa fa-user"></i>
+          <i slot="prefix" class="el-input__icon"><font-awesome-icon icon="user"/></i>
         </el-input>
       </dd>
       <dd class="pwd_icon">
         <el-input v-model="userPwd" placeholder="密码" type="password" clearable>
-          <i slot="prefix" class="el-input__icon fa fa-key"></i>
+          <i slot="prefix" class="el-input__icon"><font-awesome-icon icon="key"/></i>
         </el-input>
       </dd>
       <dd class="val_icon">
@@ -33,9 +33,6 @@
   </div>
 </template>
 <script>
-  import $ from 'jquery'
-  // import particleground from '../../../static/js/Particleground'
-
   export default {
     data() {
       return {
@@ -43,7 +40,7 @@
         userName: '',
         userPwd: '',
         inputCode: '',
-        code: ''
+        code: '',
       }
     },
     components: {},
@@ -70,10 +67,6 @@
         ctx.fillText(a, 0, 100);
       },
       createCode() {
-        // $('.login').particleground({
-        //   dotColor: '#999999',
-        //   lineColor: '#999999'
-        // });
         this.code = "";
         let codeLength = 4;
         let selectChar = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -199,5 +192,4 @@
       }
     }
   }
-
 </style>

@@ -5,7 +5,10 @@
       <el-menu :default-active="menuActive" :unique-opened="isUnique" class="el-menu-vertical-demo aside-menu"
                @select="menuSelect">
         <el-submenu v-for="(value,key,index) in menuData" :key="index" :index="String(index)">
-          <template slot="title"><i class="fa fa-video-camera"></i> {{key}}</template>
+          <template slot="title">
+            <font-awesome-icon icon="video" style="color: #909399;"/>
+            {{key}}
+          </template>
           <el-menu-item v-for="(item,i) in value" :key="i" :index="index+'-'+i">{{item}}</el-menu-item>
         </el-submenu>
       </el-menu>
@@ -229,7 +232,7 @@
   .section {
     width: 80%;
     height: 660px;
-    background: url("../../static/images/22.jpg") no-repeat #fff;
+    background: url("../../static/images/testbg.jpg") no-repeat #fff;
     background-size: 100% 100%;
     border: 1px solid #eee;
     margin-left: 220px;
@@ -253,10 +256,12 @@
       cursor: pointer;
     }
   }
-  .add-btn{
+
+  .add-btn {
     width: 200px;
     margin-bottom: 20px;
   }
+
   .aside {
     .content {
       background: #fff;
@@ -315,7 +320,8 @@
     bottom: 0;
     overflow: hidden;
   }
-  .menu{
+
+  .menu {
     position: absolute;
   }
 
@@ -341,5 +347,9 @@
 
   a:hover {
     text-decoration: none;
+  }
+
+  .el-submenu__title b {
+    color: #909399;
   }
 </style>

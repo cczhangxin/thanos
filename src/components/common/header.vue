@@ -12,7 +12,7 @@
         </router-link>
       </el-submenu>
       <el-menu-item index="6" @click="logOut()" style="float: right;width: 100px;">
-        <i class="fa fa-sign-out" style="color: #fff;vertical-align: baseline;font-size: 18px"></i>退出
+        <font-awesome-icon icon="sign-out-alt"/>退出
       </el-menu-item>
     </el-menu>
     <div class="section">
