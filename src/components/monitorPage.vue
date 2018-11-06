@@ -10,7 +10,7 @@
         </el-submenu>
       </el-menu>
     </aside>
-    <section class="section item-box">
+    <section class="section">
       <img v-for="item in videos" class="item-img" src="../../static/images/video.png"
            :style="{top:item.top,left:item.left}"
            :info="item"
@@ -233,6 +233,7 @@
     background-size: 100% 100%;
     border: 1px solid #eee;
     margin-left: 220px;
+    position: relative;
     .item-img {
       position: absolute;
       cursor: move;
@@ -320,14 +321,6 @@
 
   .aside-menu {
     border-radius: 6px;
-  }
-
-  .section {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    background: #f9fafc;
-    padding: 20px;
   }
 
   .el-menu-vertical-demo:not(.el-menu--collapse) {

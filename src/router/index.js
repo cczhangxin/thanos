@@ -31,7 +31,7 @@ import addProFlow from '../components/setting/proFlow/addProFlow'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     {
       path: '/login',
@@ -57,6 +57,11 @@ export default new Router({
         {
           path: '/equipmentLedger',
           component: equipmentLedger,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/equipmentEdit',
+          component: equipmentEdit,
           beforeEnter: (to, from, next) => checkedPermission(to, from, next)
         },
         {

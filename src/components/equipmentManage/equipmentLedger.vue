@@ -40,21 +40,199 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total=Number(total)>
     </el-pagination>
-    <!--&lt;!&ndash;弹窗&ndash;&gt;-->
-    <!--<el-dialog title="编辑设备" :visible.sync="outerVisible" width="70%" :close-on-click-modal="false">-->
-    <!--<el-dialog width="30%" title="内层 Dialog" :visible.sync="innerVisible" append-to-body>-->
-    <!--</el-dialog>-->
-    <!--<el-steps :active="active" finish-status="success">-->
-    <!--<el-step title="设备基本信息"></el-step>-->
-    <!--<el-step title="设备备件"></el-step>-->
-    <!--<el-step title="润滑卡片"></el-step>-->
-    <!--</el-steps>-->
-    <!--<equipmentEdit></equipmentEdit>-->
-    <!--<div slot="footer" class="dialog-footer">-->
-    <!--<el-button @click="outerVisible = false">取 消</el-button>-->
-    <!--<el-button type="primary" @click="innerVisible = true">打开内层 Dialog</el-button>-->
-    <!--</div>-->
-    <!--</el-dialog>-->
+    <!--弹窗-->
+    <el-dialog :title="dialogTitle" :visible.sync="showDialog" width="60%" :close-on-click-modal="false"
+               :close-on-press-escape="false">
+      <el-steps :active="stepActive" finish-status="success" class="steps">
+        <el-step title="基础信息"></el-step>
+        <el-step title="设备备件"></el-step>
+        <el-step title="润滑卡片"></el-step>
+        <el-step title="设备参数"></el-step>
+      </el-steps>
+      <!--基础信息-->
+      <el-form v-show="stepActive===0" :model="basicInformation" :rules="ruleBasicInformation" ref="basicInformation"
+               label-width="100px"
+               style="width: 90%">
+        <el-form-item label="设备名称" prop="name">
+          <el-input v-model="basicInformation.name" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="规格型号" prop="specification">
+          <el-input v-model="basicInformation.specification" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="生产厂家" prop="vendor">
+          <el-input v-model="basicInformation.vendor" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="设备用途" prop="useTo">
+          <el-input v-model="basicInformation.useTo" clearable></el-input>
+        </el-form-item>
+      </el-form>
+      <!--设备备件-->
+      <div v-show="stepActive===1">
+        <el-table :data="squareParts" style="width: 100%">
+          <el-table-column type="index" width="50"></el-table-column>
+          <el-table-column property="name" label="备件名称"></el-table-column>
+          <el-table-column property="installLocation" label="使用部位"></el-table-column>
+          <el-table-column property="specifications" label="规格型号"></el-table-column>
+          <el-table-column property="unit" label="单位"></el-table-column>
+          <el-table-column property="initialAmount" label="装机数量"></el-table-column>
+          <el-table-column property="technicalParameters" label="技术参数"></el-table-column>
+          <el-table-column property="others" label="其他"></el-table-column>
+          <el-table-column label="操作" width="150">
+            <template slot-scope="scope">
+              <el-button size="mini" type="success">编辑</el-button>
+              <el-button size="mini" type="danger" @click="deleteItem(scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-table :data="[1]" style="width: 100%">
+          <el-table-column width="50"></el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="squarePart.name" placeholder="备件名称" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="squarePart.installLocation" placeholder="使用部位" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="squarePart.specifications" placeholder="规格型号" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="squarePart.unit" placeholder="单位" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="squarePart.initialAmount" placeholder="装机数量" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="squarePart.technicalParameters" placeholder="技术参数" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="squarePart.others" placeholder="其他" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column width="150">
+            <template slot-scope="scope">
+              <el-button size="mini" type="primary" @click="add('squarePart')">新增</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <!--润滑卡片-->
+      <div v-show="stepActive===2">
+        <el-table :data="lubricatingCards" style="width: 100%">
+          <el-table-column type="index" width="50"></el-table-column>
+          <el-table-column property="position" label="润滑部位"></el-table-column>
+          <el-table-column property="amount" label="润滑点数"></el-table-column>
+          <el-table-column property="type" label="润滑方式"></el-table-column>
+          <el-table-column property="initialOilAmount" label="初装油量"></el-table-column>
+          <el-table-column property="supplyOilAmount" label="加油量"></el-table-column>
+          <el-table-column property="lubricatingPeriod" label="润滑周期"></el-table-column>
+          <el-table-column property="temperature" label="标准温度"></el-table-column>
+          <el-table-column label="操作" width="150">
+            <template slot-scope="scope">
+              <el-button size="mini" type="success" @click="dialog=true;activeData=scope.row">修改</el-button>
+              <el-button size="mini" type="danger" @click="deleteItem(scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-table :data="[1]" style="width: 100%">
+          <el-table-column width="50"></el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="lubricatingCard.position" placeholder="润滑部位" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="lubricatingCard.amount" placeholder="润滑点数" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="lubricatingCard.type" placeholder="润滑方式" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="lubricatingCard.oilSpecifications" placeholder="油品型号" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="lubricatingCard.initialOilAmount" placeholder="初装油量" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="lubricatingCard.supplyOilAmount" placeholder="加油量" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="lubricatingCard.lubricatingPeriod" placeholder="润滑周期" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="lubricatingCard.temperature" placeholder="标准温度" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column width="150">
+            <template slot-scope="scope">
+              <el-button size="mini" type="primary" @click="add('lubricatingCard')">新增</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <!--设备参数-->
+      <div v-show="stepActive===3">
+        <el-table :data="parameters" style="width: 100%">
+          <el-table-column type="index" width="50"></el-table-column>
+          <el-table-column property="name" label="参数名称"></el-table-column>
+          <el-table-column property="value" label="参数值"></el-table-column>
+          <el-table-column label="操作" width="150">
+            <template slot-scope="scope">
+              <el-button size="mini" type="success" @click="dialog=true;activeData=scope.row">修改</el-button>
+              <el-button size="mini" type="danger" @click="deleteItem(scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-table :data="[1]" style="width: 100%">
+          <el-table-column width="50"></el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="parameter.name" placeholder="参数名称" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <el-input size="mini" v-model="parameter.value" placeholder="参数值" clearable></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column width="150">
+            <template slot-scope="scope">
+              <el-button size="mini" type="primary" @click="add('lubricatingCard')">新增</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="showDialog = false" size="medium">取 消</el-button>
+        <el-button v-show="stepActive" type="primary" @click="stepActive--" size="medium">上一步</el-button>
+        <el-button v-show="stepActive!==3" type="primary" @click="nexStep()" size="medium">下一步</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -64,27 +242,72 @@
   export default {
     data() {
       return {
-        outerVisible: false,
-        innerVisible: false,
+        showDialog: false,
         equipmentNumber: '',
         equipmentName: '',
         titleName: ['设备名称', '设备编号', '规格型号', '生产厂家', '设备用途', '主要参数'],
         dialogFormVisible: false,
         activeData: '',
         tableData: [],
-        itemData: {
-          name: '1',
-          number: '2',
-          type: '3',
-          manufacturers: '4',
-          use: '5',
-          parameter: '6'
-        },
         loading: true,
         categoryOptions: '',
         pageNow: 1,
         pageSize: 10,
-        total: ''
+        total: '',
+        dialogTitle: '新增设备台账',
+        basicInformation: {
+          companyId: "5b7f6b1ce7a4d48d1af01f56",
+          name: "",
+          specification: "",
+          vendor: "",
+          useTo: "",
+        },
+        ruleBasicInformation: {
+          name: [
+            {required: true, message: '请填写设备名称', trigger: 'change'}
+          ],
+          specification: [
+            {required: true, message: '请填写规格型号', trigger: 'change'}
+          ],
+          vendor: [
+            {required: true, message: '请填生产厂家', trigger: 'change'}
+          ],
+          useTo: [
+            {required: true, message: '请填设备用途', trigger: 'change'}
+          ]
+        },
+        squareParts: [],
+        squarePart: {
+          "initialAmount": "",
+          "installLocation": "",
+          "name": "",
+          "others": "",
+          "riskyReserve": "",
+          "specifications": "",
+          "technicalParameters": "",
+          "technicalRequirement": "",
+          "unit": ""
+        },
+        //润滑卡片
+        lubricatingCards: [],
+        lubricatingCard: {
+          "amount": "",
+          "id": "",
+          "initialOilAmount": "",
+          "lubricatingPeriod": "",
+          "oilSpecifications": "",
+          "position": "",
+          "supplyOilAmount": "",
+          "temperature": "",
+          "standardOilAmount": "",
+          "type": ""
+        },
+        parameters: [],
+        parameter: {
+          "name": "",
+          "value": "",
+        },
+        stepActive: 0
       }
     },
     components: {equipmentEdit},
@@ -121,27 +344,12 @@
         })
       },
       newEquipment() {
-        this.$router.push({
-          path: '/equipmentEdit'
-        })
-      },
-      handleDetail(index, row) {
-        this.$router.push({
-          path: '/equipmentDetails',
-          query: {
-            data: row
-          }
-        })
-      },
-      handleEdit(index, row) {
-        // this.outerVisible = true
-        this.$router.push({
-          path: '/equipmentEdit',
-          query: {
-            data: JSON.stringify(row)
-          }
-        })
-        this.dialogFormVisible = true
+        // this.$router.push({
+        //   path: '/equipmentEdit'
+        // })
+        this.showDialog = true
+        this.stepActive = 0
+
       },
       handleDelete(item) {
         this.$confirm('确认删除?', '提示', {
@@ -155,12 +363,6 @@
           })
         })
       },
-      handleEquipmentInfo(index, row) {
-        console.log(index, row);
-      },
-      handleGenerate(index, row) {
-        console.log(index, row);
-      },
       handleSizeChange(val) {
         this.pageSize = val
         this.getTableData()
@@ -168,10 +370,33 @@
       handleCurrentChange(val) {
         this.pageNow = val
         this.getTableData()
+      },
+      submitForm() {
+        this.$refs.basicInformation.validate((valid) => {
+          if (valid) {
+            this.stepActive++
+          } else {
+            return false;
+          }
+        });
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      },
+      nexStep() {
+        if (!this.stepActive) {
+          this.submitForm()
+        } else {
+          this.stepActive++
+        }
       }
     }
   }
 </script>
 
 <style scoped>
+  .steps {
+    margin-bottom: 20px;
+
+  }
 </style>

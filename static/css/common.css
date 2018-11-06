@@ -57,13 +57,17 @@ table {
 }
 
 ::-webkit-scrollbar-track-piece {
-  background-color: #ccc;
+  background-color: #fff;
   -webkit-border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:vertical {
-  background-color: #999;
+  background-color: #409eff;
   -webkit-border-radius: 6px;
+}
+
+.el-scrollbar__wrap {
+  overflow: auto !important;
 }
 
 body {
