@@ -2,16 +2,16 @@
     <div class="item-box">
         <el-form ref="form" :model="form" label-width="80px" size="mini">
             <el-form-item label="部门名称" required>
-                <el-input v-model="form.name"></el-input>
+                <el-input v-model="form.name" size="mini"></el-input>
             </el-form-item>
             <el-form-item label="部门编号" required>
-                <el-input v-model="form.departNum"></el-input>
+                <el-input v-model="form.departNum" size="mini"></el-input>
             </el-form-item>
             <el-form-item label="部门电话" required>
-                <el-input v-model="form.telephone"></el-input>
+                <el-input v-model="form.telephone" size="mini"></el-input>
             </el-form-item>
             <el-form-item label="部门级别" required>
-                <el-select v-model="form.departLevel" placeholder="请选择部门级别">
+                <el-select v-model="form.departLevel" placeholder="请选择部门级别" size="mini">
                     <el-option v-for="item in form.departLevels" :label="item.name" :value="item.value"
                                :key="item.value"></el-option>
                     <el-option value="" label="">
@@ -22,22 +22,22 @@
             <departpicker company-id="5b7f6b1ce7a4d48d1af01f56" @changedata="selectParent" :departIdOuter="form.parent"
                           :level="form.departLevel"></departpicker>
             <el-form-item label="备注">
-                <el-input v-model="form.remark"></el-input>
+                <el-input v-model="form.remark" size="mini"></el-input>
             </el-form-item>
             <el-form-item size="large">
-                <el-button type="primary" @click="addDepart" v-if="!form.id">立即创建</el-button>
-                <el-button type="primary" @click="editDepart" v-else>保存</el-button>
+                <el-button type="primary" @click="addDepart" v-if="!form.id" size="mini">立即创建</el-button>
+                <el-button type="primary" size="mini" @click="editDepart" v-else >保存</el-button>
             </el-form-item>
         </el-form>
         <el-dialog :visible.sync="addLevelFormDia">
             <el-form :model="addLevelForm">
                 <el-form-item label="增加部门级别" :label-width="formLabelWidth">
-                    <el-input v-model="addLevelForm.name" autocomplete="off"></el-input>
+                    <el-input v-model="addLevelForm.name" autocomplete="off" size="mini"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="addLevelFormDia = false">取 消</el-button>
-                <el-button type="primary" @click="addLevelFormDia = false">确 定</el-button>
+                <el-button @click="addLevelFormDia = false" size="mini">取 消</el-button>
+                <el-button type="primary" @click="addLevelFormDia = false" size="mini">确 定</el-button>
             </div>
         </el-dialog>
     </div>
