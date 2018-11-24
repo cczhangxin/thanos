@@ -2,14 +2,14 @@
     <div class="item-box">
         <el-form :inline="true" :model="form" class="demo-form-inline">
             <el-form-item label="">
-                <el-input v-model="form.name" placeholder=" 请输入部门名称查询"></el-input>
+                <el-input v-model="form.name" placeholder=" 请输入部门名称查询" size="mini"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit">查询</el-button>
+                <el-button type="primary" @click="onSubmit" size="mini" icon="el-icon-search">查询</el-button>
             </el-form-item>
             <el-form-item style="float:right">
                 <router-link to="addDepart">
-                    <el-button type="primary" plain>新建部门</el-button>
+                    <el-button type="primary" size="mini">新建部门</el-button>
                 </router-link>
             </el-form-item>
         </el-form>
@@ -32,10 +32,10 @@
                              label="备注"
             >
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="150px;">
                 <template slot-scope="scope">
                     <router-link :to="['editDepart/']+scope.row.id">
-                        <el-button size="mini" type="success">编辑</el-button>
+                        <el-button size="mini" type="success" >编辑</el-button>
                     </router-link>
                     <el-button
                             size="mini"
