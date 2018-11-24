@@ -4,10 +4,19 @@
             <el-form-item label="部门名称" required>
                 <el-input v-model="form.name"></el-input>
             </el-form-item>
+            <el-form-item label="部门编号" required>
+                <el-input v-model="form.departNum"></el-input>
+            </el-form-item>
             <el-form-item label="部门电话" required>
                 <el-input v-model="form.telephone"></el-input>
             </el-form-item>
-            <departpicker company-id="5b7f6b1ce7a4d48d1af01f56" @changedata="selectParent" :departIdOuter="form.parent"></departpicker>
+            <el-form-item label="部门级别" required>
+                <el-select v-model="form.departLevel" placeholder="请选择部门级别">
+                    <el-option  v-for="item in form.departLevels" :label="item.name" :value="item.value" :key="item.value"></el-option>
+                    <el-option value="" label=""><li  @click="addLevel"><span>增加部门级别</span></li></el-option>
+                </el-select>
+            </el-form-item>
+            <departpicker company-id="5b7f6b1ce7a4d48d1af01f56" @changedata="selectParent" :departIdOuter="form.parent" :level="form.departLevel"></departpicker>
             <el-form-item label="备注">
                 <el-input v-model="form.remark"></el-input>
             </el-form-item>
@@ -16,7 +25,17 @@
                 <el-button type="primary" @click="editDepart" v-else>保存</el-button>
             </el-form-item>
         </el-form>
-
+        <el-dialog  :visible.sync="addLevelFormDia">
+            <el-form :model="addLevelForm">
+                <el-form-item label="增加部门级别" :label-width="formLabelWidth">
+                    <el-input v-model="addLevelForm.name" autocomplete="off"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="addLevelFormDia = false">取 消</el-button>
+                <el-button type="primary" @click="addLevelFormDia = false">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <style>
@@ -38,14 +57,20 @@
         components: {Departpicker},
         data() {
             return {
-                form: {}
+                form: {},
+                addLevelFormDia: false,
+                addLevelForm:{},
+                formLabelWidth: '120px',
             }
         },
-        mounted:function(){
+        created:function(){
             let id = this.$route.params.id;
             if(id){
                 this.getDepartDetail(id);
             }
+
+            this.form.departLevels = this.getDepartLevel();
+            console.log(this.form);
         },
         methods: {
             //添加部门
@@ -103,6 +128,24 @@
             selectParent(val){
                 this.form.parent = val;
                 console.log(val);
+            },
+            //部门级别接口
+            getDepartLevel(){
+                let level = new Array();
+                level[0] = {'name':'一级','value':1};
+                level[1] = {'name':'二级','value':2};
+                level[2] = {'name':'三级','value':3};
+                level[3] = {'name':'四级','value':4};
+
+                return level;
+            },
+            //添加一个部门
+            addLevel(){
+                this.addLevelFormDia = true;
+                // this.form.departLevel = '';
+                // this.form.departLevels = [];
+            },
+            aaaa(){
             }
 
         }

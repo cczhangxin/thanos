@@ -16,7 +16,7 @@
         created() {
             this.loaddeparts()
         },
-        props: ['companyId', 'departIdOuter'],
+        props: ['companyId', 'departIdOuter', 'level'],
         data() {
             return {
                 departs: [],
@@ -35,8 +35,12 @@
             },
 
             // 加载部门列表
-            loaddeparts() {
+            loaddeparts(level = 0) {
                 let that = this;
+                let url = '/api/departments?companyId=' + this.companyId;
+                if(level){
+                    url = url + '&level=' + level;
+                }
                 this.$http.get('/api/departments?companyId=' + this.companyId).then(
                     res => {
                         that.departs = res.data.items;
