@@ -24,7 +24,7 @@
             }
         },
         watch: {
-            departIdOuter (val) {
+            departIdOuter(val) {
                 this.departId = val
             }
         },
@@ -38,7 +38,7 @@
             loaddeparts(level = 0) {
                 let that = this;
                 let url = '/api/departments?companyId=' + this.companyId;
-                if(level){
+                if (level) {
                     url = url + '&level=' + level;
                 }
                 this.$http.get('/api/departments?companyId=' + this.companyId).then(

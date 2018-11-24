@@ -8,29 +8,29 @@
                 <el-button type="primary" @click="onSubmit">查询</el-button>
             </el-form-item>
             <el-form-item style="float:right">
-                    <router-link to="addDepart">
-                        <el-button type="primary" plain>新建部门</el-button>
-                    </router-link>
+                <router-link to="addDepart">
+                    <el-button type="primary" plain>新建部门</el-button>
+                </router-link>
             </el-form-item>
         </el-form>
         <el-table
                 :data="tableData"
                 style="width: 100%">
             <el-table-column prop="name"
-                    label="部门名称"
-                    >
+                             label="部门名称"
+            >
             </el-table-column>
             <el-table-column
                     label="部门电话" prop="telephone"
-                    >
+            >
             </el-table-column>
             <el-table-column prop="parent.name"
-                    label="上级部门"
-                    >
+                             label="上级部门"
+            >
             </el-table-column>
             <el-table-column prop="remark"
-                    label="备注"
-                    >
+                             label="备注"
+            >
             </el-table-column>
             <el-table-column label="操作">
                 <template slot-scope="scope">
@@ -40,7 +40,8 @@
                     <el-button
                             size="mini"
                             type="danger"
-                            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                            @click="handleDelete(scope.$index, scope.row)">删除
+                    </el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -70,9 +71,10 @@
 
 <script>
     import pagination from '../../mixins/pagination';
+
     export default {
         name: 'departManger',
-        mounted:function(){
+        mounted: function () {
             this.getDeparts();
         },
         mixins: [pagination],
@@ -83,9 +85,9 @@
                 totalitems: 0,
                 form: {
                     name: '',
-                    page:1,
-                    size:10,
-                    companyId:"5b7f6b1ce7a4d48d1af01f56"
+                    page: 1,
+                    size: 10,
+                    companyId: "5b7f6b1ce7a4d48d1af01f56"
                 }
             }
         },
@@ -93,10 +95,10 @@
             onSubmit() {
                 this.getDeparts();
             },
-            getDeparts(){
+            getDeparts() {
                 let that = this;
                 that.form.page = that.form.page - 1;
-                this.$http.get('/api/departments', {"params":that.form}).then(
+                this.$http.get('/api/departments', {"params": that.form}).then(
                     res => {
                         that.tableData = res.data.items;
                         that.totalitems = parseInt(res.data.totalitems);
@@ -119,22 +121,22 @@
                 this.form.page = pageno;
                 this.getDeparts();
             },
-            handleEdit (index, row) {
+            handleEdit(index, row) {
                 console.log(index, row);
             },
-            handleDelete (index, row) {
+            handleDelete(index, row) {
                 this.deletDepart(row.id);
                 this.getDeparts();
             },
-            deletDepart(id){
+            deletDepart(id) {
                 let that = this;
-                this.$http.delete('/api/departments/'+id).then((res)=>{
+                this.$http.delete('/api/departments/' + id).then((res) => {
                     that.$message({
                         message: '删除成功',
                         type: 'success'
                     });
                     that.getDeparts();
-                }).catch(function(error){
+                }).catch(function (error) {
                     that.$message({
                         message: error,
                         type: 'error'
@@ -145,8 +147,8 @@
     };
 </script>
 <style scoped>
-    .page{
-        margin-top:20px;
+    .page {
+        margin-top: 20px;
         text-align: right;
     }
 </style>
