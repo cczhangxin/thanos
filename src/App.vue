@@ -76,7 +76,7 @@
 
     body {
         font-family: "Microsoft Yahei";
-        background: #f0f2f5;
+        background: #fff;
         min-width: 1060px;
     }
 
@@ -90,15 +90,6 @@
 
     .el-input__prefix {
         left: 10px;
-    }
-
-    .item-box {
-        background: #fff;
-        border-radius: 4px;
-        padding: 20px;
-        overflow: auto;
-        border-color: rgba(0, 0, 0, .05);
-        box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
     }
 
     .table-pagination {

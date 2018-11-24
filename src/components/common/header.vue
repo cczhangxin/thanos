@@ -99,8 +99,7 @@
 
   .section {
     position: relative;
-    background: #f0f2f5;
-    padding: 20px;
+    padding: 40px;
   }
 
   a:hover {
