@@ -31,176 +31,176 @@ import addProFlow from '../components/setting/proFlow/addProFlow'
 Vue.use(Router)
 
 export default new Router({
-    // mode: 'history',
-    routes: [
+  // mode: 'history',
+  routes: [
+    {
+      path: '/login',
+      component: login
+    },
+    {
+      path: '/',
+      component: header,
+      meta: {
+        requireAuth: true,
+      },
+      children: [
         {
-            path: '/login',
-            component: login
+          path: '/test',
+          component: test
         },
         {
-            path: '/',
-            component: header,
-            meta: {
-                requireAuth: true,
-            },
-            children: [
-                {
-                    path: '/test',
-                    component: test
-                },
-                {
-                    path: '/monitorPage',
-                    component: monitorPage,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                //设备管理
-                {
-                    path: '/equipmentLedger',
-                    component: equipmentLedger,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/equipmentEdit',
-                    component: equipmentEdit,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/equipmentLedger',
-                    component: equipmentLedger,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/equipmentDetails',
-                    component: equipmentDetails,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/equipmentDetails',
-                    component: equipmentDetails,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/fixedAssets',
-                    component: fixedAssets,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/produceAndProcess',
-                    component: produceAndProcess,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/oilManage',
-                    component: oilManage,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                //设备管理在线管理
-                {
-                    path: '/technologicalProcess',
-                    component: technologicalProcess,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/maintenanceOrder',
-                    component: maintenanceOrder,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/departManger',
-                    component: departManger,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/addDepart',
-                    component: addDepart,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/editDepart',
-                    component: addDepart,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
+          path: '/monitorPage',
+          component: monitorPage,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        //设备管理
+        {
+          path: '/equipmentLedger',
+          component: equipmentLedger,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/equipmentEdit',
+          component: equipmentEdit,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/equipmentLedger',
+          component: equipmentLedger,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/equipmentDetails',
+          component: equipmentDetails,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/equipmentDetails',
+          component: equipmentDetails,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/fixedAssets',
+          component: fixedAssets,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/produceAndProcess',
+          component: produceAndProcess,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/oilManage',
+          component: oilManage,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        //设备管理在线管理
+        {
+          path: '/technologicalProcess',
+          component: technologicalProcess,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/maintenanceOrder',
+          component: maintenanceOrder,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/departManger',
+          component: departManger,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/addDepart',
+          component: addDepart,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/editDepart',
+          component: addDepart,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
 
-                {
-                    path: '/roleManger',
-                    component: roleManger,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/addRole',
-                    component: addRole,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/editRole',
-                    component: addRole,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/userManger',
-                    component: userManger,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/addUser',
-                    component: addUser,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/editUser',
-                    component: addUser,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/proFlowMan',
-                    component: proFlowMan,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/addProFlow',
-                    component: addProFlow,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/editProFlow',
-                    component: addProFlow,
-                    beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-                },
-                {
-                    path: '/*',
-                    component: notFound
-                }
-            ]
+        {
+          path: '/roleManger',
+          component: roleManger,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/addRole',
+          component: addRole,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/editRole',
+          component: addRole,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/userManger',
+          component: userManger,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/addUser',
+          component: addUser,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/editUser',
+          component: addUser,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/proFlowMan',
+          component: proFlowMan,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/addProFlow',
+          component: addProFlow,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/editProFlow',
+          component: addProFlow,
+          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
+        },
+        {
+          path: '/*',
+          component: notFound
         }
-    ]
+      ]
+    }
+  ]
 })
 
 function checkedPermission(to, from, next) {
-    next()
+  next()
 }
 
 function getCookie(cname) {
-    let name = cname + "=";
-    let ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i].trim();
-        if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
-    }
-    return "";
+  let name = cname + "=";
+  let ca = document.cookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i].trim();
+    if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
+  }
+  return "";
 }
 
 router.beforeEach((to, from, next) => {
-    store.state.menu.headerActive = to.path
-    window.sessionStorage.setItem('headerActive', to.path)
-    if (to.matched.some((r) => r.meta.requireAuth)) {
-        if (getCookie('user')) {
-            next();
-        } else {
-            next({
-                path: '/login',
-            });
-        }
+  store.state.common.headerActive = to.path
+  window.sessionStorage.setItem('headerActive', to.path)
+  if (to.matched.some((r) => r.meta.requireAuth)) {
+    if (getCookie('user')) {
+      next();
     } else {
-        next();
+      next({
+        path: '/login',
+      });
     }
+  } else {
+    next();
+  }
 })

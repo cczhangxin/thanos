@@ -2,10 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-import menu from './menu.js'
+import common from './common.js'
 
 export default new Vuex.Store({
   modules: {
-    menu: menu
+    common: common
   }
 })
