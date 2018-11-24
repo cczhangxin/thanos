@@ -1,49 +1,52 @@
 <template>
-    <div class="item-box">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="角色名称" prop="name">
-                <el-input v-model="ruleForm.name" placeholder="请输入角色名称"></el-input>
-            </el-form-item>
-            <el-form-item label="权限分配" prop="region">
-                <template>
-                    <el-select v-model="ruleForm.permissions" placeholder="请选择" multiple size="medium">
-                        <el-option-group
-                                v-for="(item, index) in permissions"
-                                :key="index"
-                                :label="index">
-                            <el-option
-                                    v-for="im in item"
-                                    :key="im.methodGenericString"
-                                    :label="im.name"
-                                    :value="im.methodGenericString">
-                            </el-option>
-                        </el-option-group>
-                    </el-select>
-                </template>
-            </el-form-item>
-            <el-form-item label="活动性质" prop="type">
-                <el-checkbox-group v-model="ruleForm.type">
-                    <div>
-                        <el-checkbox label="美食/餐厅线上活动" name="type" style="margin-left:30px;"></el-checkbox>
-                        <el-checkbox label="地推活动" name="type"></el-checkbox>
-                        <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-                        <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
+    <el-dialog :title="editOrAdd? '编辑部门':'添加部门'" :visible.sync="dialogFormVisible">
 
-                        <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-                        <el-checkbox label="地推活动" name="type"></el-checkbox>
-                        <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-                    </div>
-                </el-checkbox-group>
-            </el-form-item>
-            <el-form-item label="备注" prop="remark">
-                <el-input type="textarea" v-model="ruleForm.remark"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-                <el-button @click="resetForm('ruleForm')">重置</el-button>
-            </el-form-item>
-        </el-form>
-    </div>
+        <div class="item-box">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                <el-form-item label="角色名称" prop="name">
+                    <el-input v-model="ruleForm.name" placeholder="请输入角色名称"></el-input>
+                </el-form-item>
+                <el-form-item label="权限分配" prop="region">
+                    <template>
+                        <el-select v-model="ruleForm.permissions" placeholder="请选择" multiple size="medium">
+                            <el-option-group
+                                    v-for="(item, index) in permissions"
+                                    :key="index"
+                                    :label="index">
+                                <el-option
+                                        v-for="im in item"
+                                        :key="im.methodGenericString"
+                                        :label="im.name"
+                                        :value="im.methodGenericString">
+                                </el-option>
+                            </el-option-group>
+                        </el-select>
+                    </template>
+                </el-form-item>
+                <el-form-item label="活动性质" prop="type">
+                    <el-checkbox-group v-model="ruleForm.type">
+                        <div>
+                            <el-checkbox label="美食/餐厅线上活动" name="type" style="margin-left:30px;"></el-checkbox>
+                            <el-checkbox label="地推活动" name="type"></el-checkbox>
+                            <el-checkbox label="线下主题活动" name="type"></el-checkbox>
+                            <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
+
+                            <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
+                            <el-checkbox label="地推活动" name="type"></el-checkbox>
+                            <el-checkbox label="线下主题活动" name="type"></el-checkbox>
+                        </div>
+                    </el-checkbox-group>
+                </el-form-item>
+                <el-form-item label="备注" prop="remark">
+                    <el-input type="textarea" v-model="ruleForm.remark"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+                    <el-button @click="resetForm('ruleForm')">重置</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+    </el-dialog>
 </template>
 <style>
     .el-header {

@@ -184,8 +184,14 @@
                 console.log(index, row);
             },
             handleDelete(index, row) {
-                this.deleteDepart(row.id);
-                this.getDeparts();
+
+                this.$confirm('您确定删除吗？').then(_ => {
+                    this.deleteDepart(row.id);
+                    this.getDeparts();
+                }).catch(e => {
+                    console.log(e);
+                })
+
             },
             deleteDepart(id) {
                 let that = this;
