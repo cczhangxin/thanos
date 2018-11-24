@@ -69,11 +69,11 @@
             <div class="item-box">
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                     <el-form-item label="角色名称" prop="name">
-                        <el-input v-model="ruleForm.name" placeholder="请输入角色名称"></el-input>
+                        <el-input v-model="ruleForm.name" placeholder="请输入角色名称" clearable></el-input>
                     </el-form-item>
                     <el-form-item label="权限分配" prop="region">
                         <template>
-                            <el-select v-model="ruleForm.permissions" placeholder="请选择" multiple size="medium">
+                            <el-select v-model="ruleForm.permissions" placeholder="请选择" multiple size="medium" clearable>
                                 <el-option-group
                                         v-for="(item, index) in permissions"
                                         :key="index"
@@ -103,7 +103,7 @@
                         </el-checkbox-group>
                     </el-form-item>
                     <el-form-item label="备注" prop="remark">
-                        <el-input type="textarea" v-model="ruleForm.remark"></el-input>
+                        <el-input type="textarea" v-model="ruleForm.remark" clearable></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>

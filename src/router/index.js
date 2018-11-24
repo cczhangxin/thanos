@@ -19,9 +19,7 @@ import technologicalProcess from '../components/equipmentOnLine/technologicalPro
 import maintenanceOrder from '../components/equipmentOnLine/maintenanceOrder'
 
 import departManger from '../components/setting/dePart/departManger'
-import addDepart from '../components/setting/dePart/addDepart'
 import roleManger from '../components/setting/role/RoleManger'
-import addRole from '../components/setting/role/addRole'
 import userManger from '../components/setting/user/userManger'
 import addUser from '../components/setting/user/addUser'
 import proFlowMan from '../components/setting/proFlow/proFlowMan'
@@ -111,29 +109,8 @@ export default new Router({
           beforeEnter: (to, from, next) => checkedPermission(to, from, next)
         },
         {
-          path: '/addDepart',
-          component: addDepart,
-          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-        },
-        {
-          path: '/editDepart',
-          component: addDepart,
-          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-        },
-
-        {
           path: '/roleManger',
           component: roleManger,
-          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-        },
-        {
-          path: '/addRole',
-          component: addRole,
-          beforeEnter: (to, from, next) => checkedPermission(to, from, next)
-        },
-        {
-          path: '/editRole',
-          component: addRole,
           beforeEnter: (to, from, next) => checkedPermission(to, from, next)
         },
         {
