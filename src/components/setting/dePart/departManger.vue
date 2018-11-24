@@ -6,9 +6,10 @@
             <el-breadcrumb-item>组织架构管理</el-breadcrumb-item>
         </el-breadcrumb>
         <header class="header-search">
-            <el-input v-model="form.name" placeholder=" 请输入部门名称查询" size="mini" style="width: 180px;"></el-input>
-            <el-button type="primary" @click="onSubmit" size="mini" icon="el-icon-search">查询</el-button>
-            <el-button type="primary" size="mini" class="header-add-btn" @click="dialogFormVisible = true">新建部门</el-button>
+            <el-input v-model="form.name" placeholder=" 请输入部门名称查询" size="small" style="width: 180px;"></el-input>
+            <el-button type="primary" @click="onSubmit" size="small" icon="el-icon-search">查询</el-button>
+            <el-button type="primary" size="small" class="header-add-btn" @click="dialogFormVisible = true">新建部门
+            </el-button>
         </header>
         <el-table
                 :data="tableData"
@@ -31,9 +32,7 @@
             </el-table-column>
             <el-table-column label="操作" width="150px;">
                 <template slot-scope="scope">
-                    <router-link :to="['editDepart/']+scope.row.id">
-                        <el-button size="mini" type="success">编辑</el-button>
-                    </router-link>
+                    <el-button size="mini" type="success" @click="editDepartDialog(scope.row.id)">编辑</el-button>
                     <el-button
                             size="mini"
                             type="danger"
@@ -53,7 +52,7 @@
                 :total="pagination.total">
         </el-pagination>
 
-        <el-dialog title="添加部门" :visible.sync="dialogFormVisible">
+        <el-dialog :title="editOrAdd? '编辑部门':'添加部门'" :visible.sync="dialogFormVisible">
             <div class="item-box">
                 <el-form ref="form" :model="addForm" label-width="80px">
                     <el-form-item label="部门名称" required>
@@ -73,17 +72,17 @@
                         <el-button @click="addLevel" title="增加部门级别">+</el-button>
                     </el-form-item>
                     <departpicker company-id="5b7f6b1ce7a4d48d1af01f56" @changedata="selectParent"
-                                  :departIdOuter="form.parent"
-                                  :level="form.departLevel"></departpicker>
+                                  :departIdOuter="addForm.parent"
+                                  :level="addForm.departLevel"></departpicker>
                     <el-form-item label="备注">
-                        <el-input v-model="form.remark" clearable></el-input>
+                        <el-input v-model="addForm.remark" clearable></el-input>
                     </el-form-item>
                     <el-form-item size="large">
                         <el-button type="primary" @click="addDepart" v-if="!form.id" size="mini">立即创建</el-button>
                         <el-button type="primary" size="mini" @click="editDepart" v-else>保存</el-button>
                     </el-form-item>
                 </el-form>
-                <el-dialog :visible.sync="addLevelFormDia" append-to-body>
+                <el-dialog :visible.sync="addLevelFormDia" append-to-body title="添加部门级别" center>
                     <el-form :model="addLevelForm">
                         <el-form-item label="部门级别" :label-width="formLabelWidth">
                             <el-input v-model="addLevelForm.name" autocomplete="off" clearable></el-input>
@@ -138,6 +137,7 @@
                 addLevelFormDia: false,
                 addLevelForm: {},
                 formLabelWidth: '120px',
+                editOrAdd:false,
             }
         },
         created: function () {
@@ -147,6 +147,7 @@
             // }
             //
             this.addForm.departLevels = this.getDepartLevel();
+            console.log(this.addForm);
             // console.log(this.form);
         },
         methods: {
@@ -226,8 +227,8 @@
                 let that = this;
                 this.$http.get('/api/departments/' + id
                 ).then((res) => {
-                    that.form = res.data;
-                    that.form.parent = that.form.parent ? that.form.parent.id : '';
+                    that.addForm = res.data;
+                    that.addForm.parent = that.addForm.parent ? that.addForm.parent.id : '';
                 }).catch(function (error) {
                     that.$message({
                         message: error,
@@ -235,9 +236,9 @@
                     });
                 });
             },
-            editDepart() {
+            editDepart(id) {
                 let that = this;
-                this.$http.put('/api/departments/' + that.form.id, that.form
+                this.$http.put('/api/departments/' + id, that.addForm
                 ).then((res) => {
                     that.$message({
                         message: '修改成功',
@@ -270,10 +271,15 @@
             //添加一个部门
             addLevel() {
                 this.addLevelFormDia = true;
-                // this.form.departLevel = '';
-                // this.form.departLevels = [];
+                //this.form.departLevel = '';
+                this.form.departLevels = [];
             },
-
+            //打开编辑dialog
+            editDepartDialog(id){
+                this.dialogFormVisible = true;
+                this.editOrAdd = true;
+                this.getDepartDetail(id);
+            },
         },
     };
 </script>
