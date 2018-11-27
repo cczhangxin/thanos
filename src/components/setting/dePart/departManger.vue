@@ -1,18 +1,16 @@
 <template>
     <div class="item-box">
-        <el-form :inline="true" :model="form" class="demo-form-inline">
-            <el-form-item label="">
-                <el-input v-model="form.name" placeholder=" 请输入部门名称查询" size="mini"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="onSubmit" size="mini" icon="el-icon-search">查询</el-button>
-            </el-form-item>
-            <el-form-item style="float:right">
-                <router-link to="addDepart">
-                    <el-button type="primary" size="mini">新建部门</el-button>
-                </router-link>
-            </el-form-item>
-        </el-form>
+        <!--面包屑-->
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item>系统设置</el-breadcrumb-item>
+            <el-breadcrumb-item>组织架构管理</el-breadcrumb-item>
+        </el-breadcrumb>
+        <header class="header-search">
+            <el-input v-model="form.name" placeholder=" 请输入部门名称查询" size="small" style="width: 180px;"></el-input>
+            <el-button type="primary" @click="onSubmit" size="small" icon="el-icon-search">查询</el-button>
+            <el-button type="primary" size="small" class="header-add-btn" @click="dialogFormVisible = true">新建部门
+            </el-button>
+        </header>
         <el-table
                 :data="tableData"
                 style="width: 100%">
@@ -34,9 +32,7 @@
             </el-table-column>
             <el-table-column label="操作" width="150px;">
                 <template slot-scope="scope">
-                    <router-link :to="['editDepart/']+scope.row.id">
-                        <el-button size="mini" type="success" >编辑</el-button>
-                    </router-link>
+                    <el-button size="mini" type="success" @click="editDepartDialog(scope.row.id)">编辑</el-button>
                     <el-button
                             size="mini"
                             type="danger"
@@ -46,7 +42,7 @@
             </el-table-column>
         </el-table>
         <el-pagination
-                class="page"
+                class="table-pagination"
                 @size-change="handlePageSizeChange"
                 @current-change="curChange"
                 :current-page="pagination.currentPage"
@@ -55,6 +51,51 @@
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="pagination.total">
         </el-pagination>
+
+        <el-dialog :title="editOrAdd? '编辑部门':'添加部门'" :visible.sync="dialogFormVisible">
+            <div class="item-box">
+                <el-form ref="form" :model="addForm" label-width="80px">
+                    <el-form-item label="部门名称" required>
+                        <el-input v-model="addForm.name" clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="部门编号" required>
+                        <el-input v-model="addForm.departNum" clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="部门电话" required>
+                        <el-input v-model="addForm.telephone" clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="部门级别" required>
+                        <el-select v-model="addForm.departLevel" placeholder="请选择部门级别" clearable>
+                            <el-option v-for="item in addForm.departLevels" :label="item.name" :value="item.value"
+                                       :key="item.value"></el-option>
+                        </el-select>
+                        <el-button @click="addLevel" title="增加部门级别">+</el-button>
+                    </el-form-item>
+                    <departpicker company-id="5b7f6b1ce7a4d48d1af01f56" @changedata="selectParent"
+                                  :departIdOuter="addForm.parent"
+                                  :level="addForm.departLevel"></departpicker>
+                    <el-form-item label="备注">
+                        <el-input v-model="addForm.remark" clearable></el-input>
+                    </el-form-item>
+                    <el-form-item size="large">
+                        <el-button type="primary" @click="addDepart" v-if="!form.id" size="mini">立即创建</el-button>
+                        <el-button type="primary" size="mini" @click="editDepart" v-else>保存</el-button>
+                    </el-form-item>
+                </el-form>
+                <el-dialog :visible.sync="addLevelFormDia" append-to-body title="添加部门级别" center>
+                    <el-form :model="addLevelForm">
+                        <el-form-item label="部门级别" :label-width="formLabelWidth">
+                            <el-input v-model="addLevelForm.name" autocomplete="off" clearable></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="addLevelFormDia = false" size="mini">取 消</el-button>
+                        <el-button type="primary" @click="addLevelFormDia = false" size="mini">确 定</el-button>
+                    </div>
+                </el-dialog>
+            </div>
+        </el-dialog>
+
     </div>
 </template>
 <style>
@@ -71,25 +112,43 @@
 
 <script>
     import pagination from '../../mixins/pagination';
+    import Departpicker from "../../common/departpicker";
 
     export default {
         name: 'departManger',
         mounted: function () {
             this.getDeparts();
         },
+        components: {Departpicker},
         mixins: [pagination],
         data() {
             const item = {};
             return {
                 tableData: [],
-                totalitems: 0,
                 form: {
                     name: '',
                     page: 1,
                     size: 10,
                     companyId: "5b7f6b1ce7a4d48d1af01f56"
-                }
+                },
+                dialogFormVisible: false,
+
+                addForm: {},
+                addLevelFormDia: false,
+                addLevelForm: {},
+                formLabelWidth: '120px',
+                editOrAdd:false,
             }
+        },
+        created: function () {
+            // let id = this.$route.params.id;
+            // if (id) {
+            //     this.getDepartDetail(id);
+            // }
+            //
+            this.addForm.departLevels = this.getDepartLevel();
+            console.log(this.addForm);
+            // console.log(this.form);
         },
         methods: {
             onSubmit() {
@@ -101,10 +160,10 @@
                 this.$http.get('/api/departments', {"params": that.form}).then(
                     res => {
                         that.tableData = res.data.items;
-                        that.totalitems = parseInt(res.data.totalitems);
                         that.pagination.total = that.totalItems;
                         that.pagination.currentPageSize = that.form.size;
                         that.pagination.currentPage = that.form.page + 1;
+                        that.pagination.total = res.data.totalItems;
                     }).catch(function (error) {
                     that.$message({
                         message: error,
@@ -125,10 +184,16 @@
                 console.log(index, row);
             },
             handleDelete(index, row) {
-                this.deletDepart(row.id);
-                this.getDeparts();
+
+                this.$confirm('您确定删除吗？').then(_ => {
+                    this.deleteDepart(row.id);
+                    this.getDeparts();
+                }).catch(e => {
+                    console.log(e);
+                })
+
             },
-            deletDepart(id) {
+            deleteDepart(id) {
                 let that = this;
                 this.$http.delete('/api/departments/' + id).then((res) => {
                     that.$message({
@@ -142,7 +207,85 @@
                         type: 'error'
                     });
                 });
-            }
+            },
+            //添加部门
+            addDepart() {
+                this.form.companyId = '5b7f6b1ce7a4d48d1af01f56';
+                let param = this.form;
+                let that = this;
+                this.$http.post('/api/departments', param
+                ).then((res) => {
+                    that.$message({
+                        message: '添加成功',
+                        type: 'success'
+                    });
+                    this.$router.push({path: '/departManger'});
+                }).catch(function (error) {
+                    that.$message({
+                        message: error,
+                        type: 'error'
+                    });
+                });
+
+            },
+            //获取部门详情
+            getDepartDetail(id) {
+                let that = this;
+                this.$http.get('/api/departments/' + id
+                ).then((res) => {
+                    that.addForm = res.data;
+                    that.addForm.parent = that.addForm.parent ? that.addForm.parent.id : '';
+                }).catch(function (error) {
+                    that.$message({
+                        message: error,
+                        type: 'error'
+                    });
+                });
+            },
+            editDepart(id) {
+                let that = this;
+                this.$http.put('/api/departments/' + id, that.addForm
+                ).then((res) => {
+                    that.$message({
+                        message: '修改成功',
+                        type: 'success',
+                        onClose: function () {
+                            that.$router.push('/departManger');
+                        }
+                    });
+                }).catch(function (error) {
+                    that.$message({
+                        message: error,
+                        type: 'error'
+                    });
+                });
+            },
+            selectParent(val) {
+                this.form.parent = val;
+                console.log(val);
+            },
+            //部门级别接口
+            getDepartLevel() {
+                let level = new Array();
+                level[0] = {'name': '一级', 'value': 1};
+                level[1] = {'name': '二级', 'value': 2};
+                level[2] = {'name': '三级', 'value': 3};
+                level[3] = {'name': '四级', 'value': 4};
+
+                return level;
+            },
+            //添加一个部门
+            addLevel() {
+                this.addLevelFormDia = true;
+                //this.form.departLevel = '';
+                this.form.departLevels = [];
+            },
+            //打开编辑dialog
+            editDepartDialog(id){
+                this.dialogFormVisible = true;
+                this.editOrAdd = true;
+                this.getDepartDetail(id);
+            },
         },
     };
 </script>

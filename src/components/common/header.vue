@@ -73,7 +73,7 @@
               {name: '组织架构管理', link: '/departManger'},
               {name: '角色权限管理', link: '/roleManger'},
               {name: '用户管理', link: '/userManger'},
-              {name: '密码管理', link: ''},
+              {name: '密码管理', link: '/passwordManger'},
               {name: '审核管理', link: ''},
             ]
           }

@@ -1,6 +1,6 @@
 <template>
     <el-form-item label="上级部门">
-        <el-select v-model="departId" filterable placeholder="请选择" @change="optionchange">
+        <el-select v-model="departId" filterable placeholder="请选择" @change="optionchange" clearable>
             <el-option
                     v-for="item in departs"
                     :key="item.id"
