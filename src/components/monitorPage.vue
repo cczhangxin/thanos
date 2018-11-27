@@ -162,8 +162,8 @@
         let height = parseInt(style.height) - 20
         document.onmousemove = (e) => {
           e.preventDefault();
-          let clientX = e.clientX - 250
-          let clientY = e.clientY - 90
+          let clientX = e.clientX - 270
+          let clientY = e.clientY - 110
           if (clientX < 0) {
             clientX = 0
           }
@@ -216,8 +216,8 @@
 </script>
 <style scoped lang="less">
   .section {
-    width: 1330px;
-    height: 800px;
+    width: 1100px;
+    height: 650px;
     background: url("../../static/images/testbg.jpg") no-repeat #fff;
     background-size: 100% 100%;
     border: 1px solid #eee;
@@ -337,5 +337,9 @@
 
   .el-submenu__title b {
     color: #909399;
+  }
+
+  .el-menu {
+    border: 1px solid #e6e6e6;
   }
 </style>

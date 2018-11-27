@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-menu class="el-menu-demo" id="header" mode="horizontal" background-color="#409EFF" text-color="#fff"
+    <el-menu class="el-menu-demo header" mode="horizontal" background-color="#409EFF" text-color="#fff"
              :default-active="$store.state.common.headerActive" active-text-color="#ffd04b">
       <el-menu-item index="/monitorPage" @click="$router.push({path: '/monitorPage'});menuActive='0-0'">
         首页
@@ -100,6 +100,7 @@
   .section {
     position: relative;
     padding: 40px;
+    overflow: auto;
   }
 
   a:hover {

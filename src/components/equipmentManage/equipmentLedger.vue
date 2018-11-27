@@ -11,10 +11,10 @@
                 style="width: 180px;"></el-input>
       <el-input size="small" v-model="searchData.name" placeholder="请输入设备名称" clearable style="width: 180px;"></el-input>
       <el-button size="small" type="primary" icon="el-icon-search" @click="query()">查询</el-button>
-      <el-button size="small" type="success" class="header-add-btn" @click="$store.state.common.showDialog=true">新增设备台账</el-button>
+      <el-button size="small" type="primary" class="header-add-btn" @click="newEquipment()">新增设备台账</el-button>
     </header>
     <!--内容-->
-    <el-table :data="tableData" style="width: 100%" height="620" v-loading="loading" element-loading-text="拼命加载中">
+    <el-table :data="tableData" style="width: 100%" v-loading="loading" element-loading-text="拼命加载中">
       <el-table-column label="序号" type="index" width="50"></el-table-column>
       <el-table-column prop="name" label="设备名称"></el-table-column>
       <!--<el-table-column prop="number" label="设备编号"></el-table-column>-->
@@ -22,12 +22,12 @@
       <el-table-column prop="vendor" label="生产厂家"></el-table-column>
       <el-table-column prop="useTo" label="设备用途"></el-table-column>
       <el-table-column prop="category" label="设备分类"></el-table-column>
-      <el-table-column label="操作" width="350">
+      <el-table-column label="操作" width="340">
         <template slot-scope="scope">
-          <el-button size="mini" @click="">详情</el-button>
-          <el-button size="mini" type="success" @click="edit(scope.$index, scope.row)">修改</el-button>
-          <el-button size="mini" type="danger" @click="delete1(scope.row)">删除</el-button>
-          <el-button size="mini" type="primary" @click="">新增固定资产</el-button>
+          <el-button size="small" @click="">详情</el-button>
+          <el-button size="small" type="success" @click="edit(scope.$index, scope.row)">修改</el-button>
+          <el-button size="small" type="danger" @click="Delete(scope.row)">删除</el-button>
+          <el-button size="small" type="primary" @click="newProperty()">新增固定资产</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -42,7 +42,7 @@
       :total=Number(total)>
     </el-pagination>
     <!--弹窗-->
-    <equipment-edit></equipment-edit>
+    <equipment-edit :active="0"></equipment-edit>
   </div>
 </template>
 
@@ -105,10 +105,13 @@
         this.pageSize = val
         this.getTableData()
       },
+      newEquipment() {
+        this.$store.state.common.showDialog = true
+      },
       edit() {
 
       },
-      delete1(item) {
+      Delete(item) {
         this.$confirm('确认删除?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -120,6 +123,9 @@
           })
         })
       },
+      newProperty() {
+
+      }
     }
   }
 </script>
