@@ -73,63 +73,6 @@
           '二线区域': ['电收尘', '一线窑头', '煤粉制备'],
           '发电区域': ['电收尘', '一线窑头', '煤粉制备'],
         },
-        me: [
-          {
-            name: '一级区域',
-            icon: 'fa-video-camera',
-            children: [
-              {name: '电收尘', link: '/monitorPage'},
-              {name: '一线窑头', link: '/monitorPage'},
-              {name: '煤粉制备', link: '/monitorPage'},
-              {name: '一线原料磨', link: '/monitorPage'},
-              {name: '一线均化库', link: '/monitorPage'},
-            ]
-          },
-          {
-            name: '二线区域',
-            icon: 'fa-video-camera',
-            children: [
-              {name: '二线烧成', link: '/monitorPage'},
-              {name: '二线窑头', link: '/monitorPage'},
-              {name: '煤粉制备', link: '/monitorPage'},
-            ]
-          },
-          {
-            name: '发电区域',
-            icon: 'fa-video-camera',
-            children: [
-              {name: '一线汽轮机', link: '/monitorPage'},
-              {name: '一线锅炉', link: '/monitorPage'},
-              {name: '二线汽轮机', link: '/monitorPage'},
-              {name: '二线锅炉', link: '/monitorPage'},
-              {name: '纯水制备', link: '/monitorPage'},
-            ]
-          },
-          {
-            name: '公共区域',
-            icon: 'fa-video-camera',
-            children: [
-              {name: '供水供暖', link: '/monitorPage'},
-            ]
-          },
-          {
-            name: '矿山区域',
-            icon: 'fa-video-camera',
-            children: [
-              {name: '矿山工艺线', link: '/monitorPage'},
-            ]
-          },
-          {
-            name: '水泥区域',
-            icon: 'fa-video-camera',
-            children: [
-              {name: '水泥磨工艺', link: '/monitorPage'},
-              {name: '水泥入库', link: '/monitorPage'},
-              {name: '水泥出库', link: '/monitorPage'},
-            ]
-          }
-        ],
-
         itemId: 0,
         videos: [],
         oils: [],
@@ -156,14 +99,17 @@
       menuSelect(key) {
         window.sessionStorage.setItem('menuActive', key)
       },
-      drag(e, item) {
-        let style = window.getComputedStyle(this.$refs.section, null)
-        let width = parseInt(style.width) - 20
-        let height = parseInt(style.height) - 20
+      drag(event, item) {
+        //获取可拖动区域的style
+        let areaStyle = window.getComputedStyle(this.$refs.section, null)
+        //获取可拖动元素的style
+        let elementStyle = window.getComputedStyle(event.currentTarget, null)
+        let width = parseInt(areaStyle.width) - parseInt(elementStyle.width)
+        let height = parseInt(areaStyle.height) - parseInt(elementStyle.height)
         document.onmousemove = (e) => {
           e.preventDefault();
-          let clientX = e.clientX - 270
-          let clientY = e.clientY - 110
+          let clientX = e.clientX - this.getElementLeft(this.$refs.section) - parseInt(elementStyle.width) / 2
+          let clientY = e.clientY - this.getElementTop(this.$refs.section) - parseInt(elementStyle.height) / 2
           if (clientX < 0) {
             clientX = 0
           }
@@ -210,6 +156,24 @@
       save() {
         console.log(this.videos)
         console.log(this.oils)
+      },
+      getElementLeft(element) { //获取元素的绝对位置left
+        let actualLeft = element.offsetLeft;
+        let current = element.offsetParent;
+        while (current !== null) {
+          actualLeft += (current.offsetLeft + current.clientLeft);
+          current = current.offsetParent;
+        }
+        return actualLeft;
+      },
+      getElementTop(element) {//获取元素的绝对位置top
+        let actualTop = element.offsetTop;
+        let current = element.offsetParent;
+        while (current !== null) {
+          actualTop += (current.offsetTop + current.clientTop);
+          current = current.offsetParent;
+        }
+        return actualTop;
       }
     }
   }
